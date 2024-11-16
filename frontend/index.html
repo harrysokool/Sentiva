@@ -1,37 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sentiment Analysis</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <header>
-    <h1>Sentiment Analysis Platform</h1>
+    <h1>Cloud-based Sentiment Analysis Platform</h1>
   </header>
 
-  <main>
-    <section id="upload-section">
+  <div class="upload">
+    <div>
       <h2>Upload Text or Image</h2>
       <form id="uploadForm">
         <input type="file" id="fileInput" accept=".txt,.json,.csv,image/*" required>
         <button type="submit">Upload and Analyze</button>
       </form>
       <p id="uploadMessage"></p>
-    </section>
+    </div>
+  </div>
 
-    <section id="result-section" style="display: none;">
-      <h2>Analysis Result</h2>
-      <p id="resultSentiment">Sentiment: <span></span></p>
-      <p id="resultConfidence">Confidence: <span></span></p>
-    </section>
-  </main>
 
+  <div class="results">
+    <button>View Results</button>
+    <div style="display: none;">
+      <h2>Results</h2>
+      <div id="resultsContainer">
+        <p id="resultsMessage">No results yet</p>
+      </div>
+    </div>
+  </div>
+  
   <footer>
     <p>&copy; 2024 Sentiment Analysis Platform</p>
   </footer>
 
   <script src="script.js"></script>
 </body>
+
 </html>
