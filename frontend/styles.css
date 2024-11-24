@@ -9,6 +9,11 @@
   padding: 0;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
@@ -16,10 +21,42 @@ body {
 }
 
 header {
+  display: flex;
   background-color: #007bff;
   color: white;
-  padding: 1em;
-  text-align: center;
+  padding: 2em;
+  text-align: center;  
+  justify-content: center;
+}
+
+.title {
+  font-size: 3rem;               /* Increase font size */
+  font-weight: bold;             /* Make the text bold */
+  color: white;                  /* White text */
+  letter-spacing: 2px;           /* Add spacing between letters */
+  text-transform: capitalize;    /* Capitalize each word */
+  margin: 0 150px;                     /* Remove default margins */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
+  font-family: 'Arial', sans-serif; /* Use a clean font */
+}
+
+.login-logo {
+  display: flex;                
+  justify-content: center;    
+  align-items: center;         
+  padding: 15px 20px;          
+  background-color: #28a745;   
+  color: white;                 
+  font-size: 20px;             
+  border-radius: 10px;        
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+  cursor: pointer;              
+  text-align: center; 
+  transition-duration: 0.4s;
+}
+
+.login-logo:hover {
+  background-color: #218838;
 }
 
 .upload {
