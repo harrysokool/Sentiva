@@ -128,24 +128,6 @@ button:hover {
   background-color: #218838;   
 }
 
-/* .backButton {
-  background-color: #c41c1c;   
-
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  margin: 10px 0;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s;
-  width: 100%;
-}
-
-.backButton:hover {
-  background-color: #9b1616;
-} */
-
 footer {
   text-align: center;
   padding: 10px;
