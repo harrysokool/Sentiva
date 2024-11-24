@@ -15,10 +15,36 @@ a {
 }
 
 body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+header {
+  display: flex;
+  background-color: #007bff;
+  color: white;
+  padding: 2em;
+  text-align: center;  
+  justify-content: center;
+}
+
+.project-title {
+  font-size: 3rem;             
+  font-weight: bold;            
+  color: white;                
+  letter-spacing: 2px;         
+  text-transform: capitalize;   
+  margin: 0 150px;                     
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: 'Arial', sans-serif; 
+}
+
+.body {
   display: flex;               
   justify-content: center;    
   align-items: center;        
-  height: 100vh;               
+  height: 80vh;               
   margin: 0;                  
   background-color: #f0f0f0;  
 }
@@ -102,7 +128,7 @@ button:hover {
   background-color: #218838;   
 }
 
-.backButton {
+/* .backButton {
   background-color: #c41c1c;   
 
   color: white;
@@ -118,7 +144,7 @@ button:hover {
 
 .backButton:hover {
   background-color: #9b1616;
-}
+} */
 
 footer {
   text-align: center;

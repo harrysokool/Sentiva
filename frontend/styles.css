@@ -30,17 +30,17 @@ header {
 }
 
 .title {
-  font-size: 3rem;               /* Increase font size */
-  font-weight: bold;             /* Make the text bold */
-  color: white;                  /* White text */
-  letter-spacing: 2px;           /* Add spacing between letters */
-  text-transform: capitalize;    /* Capitalize each word */
-  margin: 0 150px;                     /* Remove default margins */
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Add a subtle shadow */
-  font-family: 'Arial', sans-serif; /* Use a clean font */
+  font-size: 3rem;             
+  font-weight: bold;             
+  color: white;           
+  letter-spacing: 2px;         
+  text-transform: capitalize;  
+  margin: 0 150px;                   
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: 'Arial', sans-serif; 
 }
 
-.login-logo {
+.logoutButton {
   display: flex;                
   justify-content: center;    
   align-items: center;         
@@ -55,7 +55,7 @@ header {
   transition-duration: 0.4s;
 }
 
-.login-logo:hover {
+.logoutButton:hover {
   background-color: #218838;
 }
 

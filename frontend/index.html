@@ -11,14 +11,15 @@
 <body>
   <header>
     <div class="title">Cloud-based Sentiment Analysis Platform</div>
-    <a href="loginPage.html">    
-      <div class="login-logo">
-        login
+    <a href="loginPage/loginPage.html">
+      <div class="logoutButton">
+        Logout
       </div>
     </a>
   </header>
 
-  <div class="upload">
+  <!-- Upload Section -->
+  <div class="upload" style="display: none;"> <!-- Initially hidden -->
     <div>
       <h2>Upload Text or Image</h2>
       <form id="uploadForm">
@@ -29,8 +30,8 @@
     </div>
   </div>
 
-
-  <div class="results">
+  <!-- Results Section -->
+  <div class="results" style="display: none;"> <!-- Initially hidden -->
     <button>View Results</button>
     <div style="display: none;">
       <h2>Results</h2>

@@ -1,45 +1,27 @@
-document
-  .getElementById("uploadForm")
-  .addEventListener("submit", async (event) => {
-    event.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+  const isLoggedIn = sessionStorage.getItem("isLoggedIn"); // Check if user is logged in
 
-    const fileInput = document.getElementById("fileInput");
-    const file = fileInput.files[0];
-    const uploadMessage = document.getElementById("uploadMessage");
-    const resultSection = document.getElementById("result-section");
-    const resultSentiment = document
-      .getElementById("resultSentiment")
-      .querySelector("span");
-    const resultConfidence = document
-      .getElementById("resultConfidence")
-      .querySelector("span");
+  // Select the sections to show or hide
+  const uploadSection = document.querySelector(".upload");
+  const resultsSection = document.querySelector(".results");
 
-    if (!file) {
-      uploadMessage.textContent = "Please select a file.";
-      return;
-    }
+  if (isLoggedIn) {
+    // If logged in, display the sections
+    uploadSection.style.display = "block";
+    resultsSection.style.display = "block";
+  } else {
+    // If not logged in, hide sections and redirect (optional)
+    uploadSection.style.display = "none";
+    resultsSection.style.display = "none";
+    alert("You must log in to access this content.");
+    window.location.href = "loginPage/loginPage.html"; // Redirect to login page
+  }
+});
 
-    uploadMessage.textContent = "Uploading...";
+document.getElementById("logoutButton").addEventListener("click", () => {
+  // Set isLoggedIn to "false"
+  sessionStorage.setItem("isLoggedIn", "false");
 
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      const response = await fetch("https://your-api-endpoint/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) throw new Error("Upload failed");
-
-      const result = await response.json();
-
-      uploadMessage.textContent = "Upload successful!";
-      resultSentiment.textContent = result.sentiment;
-      resultConfidence.textContent = `${result.confidence}%`;
-
-      resultSection.style.display = "block";
-    } catch (error) {
-      uploadMessage.textContent = "Upload failed. Please try again.";
-    }
-  });
+  alert("You have been logged out.");
+  window.location.href = "loginPage/loginPage.html"; // Redirect to login page
+});
