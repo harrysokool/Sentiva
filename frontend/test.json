@@ -1,0 +1,34 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "text": "I absolutely love this product! It works like a charm and exceeds expectations.",
+      "sentiment": "positive"
+    },
+    {
+      "id": 2,
+      "text": "This is the worst experience I’ve ever had. Totally disappointed!",
+      "sentiment": "negative"
+    },
+    {
+      "id": 3,
+      "text": "The event was okay. Nothing extraordinary, but not too bad either.",
+      "sentiment": "neutral"
+    },
+    {
+      "id": 4,
+      "text": "Amazing service! The staff was friendly and the delivery was super fast.",
+      "sentiment": "positive"
+    },
+    {
+      "id": 5,
+      "text": "I wouldn’t recommend this to anyone. It’s a waste of money.",
+      "sentiment": "negative"
+    },
+    {
+      "id": 6,
+      "text": "The movie was decent. Not the best I’ve seen, but worth a watch.",
+      "sentiment": "neutral"
+    }
+  ]
+}

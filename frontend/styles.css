@@ -66,11 +66,28 @@ header {
   text-align: center;
 }
 
+.uploadData {
+  margin: 20px 0;
+}
+
 form {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+}
+
+.uploadMSG {
+  font-size: 1rem;            
+  margin-top: 15px;           
+  padding: 10px;              
+  border-radius: 5px;      
+  text-align: center;          
+  display: inline-block;    
+  width: fit-content;
+  background-color: #d4edda;   
+  color: #155724;             
+  border: 1px solid #c3e6cb;
 }
 
 input[type="file"] {

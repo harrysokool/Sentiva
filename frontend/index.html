@@ -19,16 +19,20 @@
   </header>
 
   <!-- Upload Section -->
-  <div class="upload" style="display: none;"> <!-- Initially hidden -->
+  <div class="upload" style="display: none;">
     <div>
       <h2>Upload Text or Image</h2>
       <form id="uploadForm">
-        <input type="file" id="fileInput" accept=".txt,.json,.csv,image/*" required>
+        <div class="uploadData">
+          <label for="fileInput">Choose a file (Maximum 10MB):</label>
+          <input type="file" id="fileInput" accept=".txt,.json,.csv,image/*" required>
+        </div>
         <button type="submit">Upload and Analyze</button>
       </form>
-      <p id="uploadMessage"></p>
+      <p class="uploadMSG" id="uploadMessage" style="display: none;"></p>
     </div>
   </div>
+  
 
   <!-- Results Section -->
   <div class="results" style="display: none;"> <!-- Initially hidden -->
