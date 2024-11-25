@@ -17,12 +17,11 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Log out the user
-// document.getElementById("logoutButton").addEventListener("click", () => {
-//   sessionStorage.setItem("isLoggedIn", "false");
-
-//   alert("You have been logged out.");
-//   window.location.href = "loginPage/loginPage.html";
-// });
+document.getElementById("logoutButton").addEventListener("click", () => {
+  sessionStorage.removeItem("isLoggedIn");
+  alert("You have been logged out.");
+  window.location.href = "loginPage/loginPage.html";
+});
 
 // Handle form submission
 document

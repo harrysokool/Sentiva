@@ -31,13 +31,33 @@ header {
 
 .project-title {
   font-size: 3rem;             
-  font-weight: bold;            
-  color: white;                
+  font-weight: bold;             
+  color: white;           
   letter-spacing: 2px;         
-  text-transform: capitalize;   
-  margin: 0 150px;                     
+  text-transform: capitalize;  
+  margin: 0 150px;                   
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   font-family: 'Arial', sans-serif; 
+}
+
+.loginButton {
+  /* width: 100px; */
+  display: flex;                
+  justify-content: center;    
+  align-items: center;         
+  padding: 15px 20px;          
+  background-color: #28a745;   
+  color: white;                 
+  font-size: 20px;             
+  border-radius: 10px;        
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
+  cursor: pointer;              
+  text-align: center; 
+  transition-duration: 0.4s;
+}
+
+.loginButton:hover {
+  background-color: #218838;
 }
 
 .body {
