@@ -1,6 +1,7 @@
 import json
 import boto3
 from decimal import Decimal 
+from boto3.dynamodb.conditions import Key
 
 
 
@@ -18,7 +19,12 @@ def getTotalCounts(partitionKey):
     
     listOfResults = resultDict['Items']
     
-    joyCount, angerCount, loveCount, sadnessCount, fearCount, surpriseCount = 0
+    joyCount = 0
+    angerCount = 0
+    loveCount = 0
+    sadnessCount = 0
+    fearCount = 0
+    surpriseCount = 0
     
     for element in listOfResults:
         emotion = element['emotion']
@@ -35,12 +41,12 @@ def getTotalCounts(partitionKey):
         elif emotion == "surprise":
             surpriseCount += 1
         
-    print("\nTotal counts of joy: " + joyCount)
-    print("\nTotal counts of anger: " + angerCount)
-    print("\nTotal counts of love: " + loveCount)
-    print("\nTotal counts of sadness: " + sadnessCount)
-    print("\nTotal counts of fear: " + fearCount)
-    print("\nTotal counts of surprise: " + surpriseCount)
+    print("\nTotal counts of joy: " + str(joyCount))
+    print("\nTotal counts of anger: " + str(angerCount))
+    print("\nTotal counts of love: " + str(loveCount))
+    print("\nTotal counts of sadness: " + str(sadnessCount))
+    print("\nTotal counts of fear: " + str(fearCount))
+    print("\nTotal counts of surprise: " + str(surpriseCount))
     
         
 
