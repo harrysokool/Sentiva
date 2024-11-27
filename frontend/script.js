@@ -93,9 +93,7 @@ document
     let partitionKey = fileName.replace(".json", "").trim();
     console.log("Partition Key:", partitionKey);
 
-    let apiUrl =
-      `https://rpj7jmku7c.execute-api.ca-central-1.amazonaws.com/stage0/getResult?partitionKey=` +
-      partitionKey;
+    let apiUrl = `https://rpj7jmku7c.execute-api.ca-central-1.amazonaws.com/stage0/getResult?partitionKey=${partitionKey}`;
     console.log("API URL:", apiUrl);
 
     try {
@@ -107,13 +105,11 @@ document
         throw new Error(`Error: ${response.statusText}`);
       }
 
-      result = await response.json();
-      resultToDownload = result;
-      console.log("Raw API Response:", result);
+      // Parse the raw JSON response
+      const results = await response.json();
+      console.log("Raw API Response:", results);
 
-      const results = JSON.parse(result.body);
-      console.log("Parsed Results:", results);
-
+      // Populate the results table
       const resultsTable = document.getElementById("resultsTable");
       resultsTable.innerHTML = "";
 
