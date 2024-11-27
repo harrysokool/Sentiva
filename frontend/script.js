@@ -2,7 +2,6 @@
 let fileName = null;
 let getResults = false;
 let resultToDownload = null;
-let result = null;
 
 // see if the user is logged in
 document.addEventListener("DOMContentLoaded", () => {
@@ -98,20 +97,16 @@ document
     console.log("API URL:", apiUrl);
 
     try {
-      if (!resultToDownload) {
-        const response = await fetch(apiUrl, {
-          method: "GET",
-        });
+      const response = await fetch(apiUrl, {
+        method: "GET",
+      });
 
-        if (!response.ok) {
-          throw new Error(`Error: ${response.statusText}`);
-        }
-
-        result = await response.json();
-        resultToDownload = result;
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
       }
 
-      result = resultToDownload;
+      result = await response.json();
+      resultToDownload = result;
       console.log("Raw API Response:", result);
 
       const results = JSON.parse(result.body);
@@ -188,12 +183,22 @@ document.getElementById("deleteResultsBtn").addEventListener("click", () => {
   fileName = null;
   getResults = false;
   resultToDownload = null;
-  result = null;
 
   const resultsList = document.getElementById("resultsTable");
   resultsList.innerHTML = "";
 
   document.getElementById("resultsContainer").style.display = "none";
+
+  const uploadMessage = document.getElementById("uploadMessage");
+  if (uploadMessage) {
+    uploadMessage.textContent = "";
+    uploadMessage.style.display = "none";
+  }
+
+  const fileInput = document.getElementById("fileInput");
+  if (fileInput) {
+    fileInput.value = "";
+  }
 
   console.log("Global variables reset and results cleared.");
 });
