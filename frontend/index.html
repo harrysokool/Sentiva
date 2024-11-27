@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sentiment Analysis</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
 </head>
 
 <body>
@@ -26,7 +27,7 @@
   <!-- Upload Section -->
   <div class="upload" style="display: none;">
     <div>
-      <h2>Upload Text or Image</h2>
+      <div class="subTitle">Upload Text or Image</div>
       <form id="uploadForm">
         <div class="uploadData">
           <label for="fileInput">Choose a file (Maximum 10MB):</label>
@@ -41,12 +42,14 @@
 
   <!-- Results Section -->
   <div class="results" style="display: none;"> <!-- Initially hidden -->
-    <button>View Results</button>
-    <div style="display: none;">
-      <h2>Results</h2>
-      <div id="resultsContainer">
-        <p id="resultsMessage">No results yet</p>
-      </div>
+    <div class="resultButtons-container">
+      <button id="viewResultsBtn">View Results</button>
+      <button id="downloadResultsBtn">Download Results</button>
+      <button id="deleteResultsBtn">Clear Results</button>
+    </div>
+    <div id="resultsContainer" >
+      <div class="subTitle">Results</div>
+      <ul id="resultsList"></ul>
     </div>
   </div>
   
