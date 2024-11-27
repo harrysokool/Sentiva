@@ -22,43 +22,51 @@ body {
 
 header {
   display: flex;
+  justify-content: space-between; 
+  align-items: center;
   background-color: #007bff;
   color: white;
-  padding: 2em;
-  text-align: center;  
-  justify-content: center;
+  padding: 1.5em 2em; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: sticky; 
+  top: 0;
+  z-index: 1000;
 }
 
 .project-title {
-  font-size: 3rem;             
-  font-weight: bold;             
-  color: white;           
-  letter-spacing: 2px;         
-  text-transform: capitalize;  
-  margin: 0 150px;                   
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  font-family: 'Arial', sans-serif; 
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-family: 'Arial', sans-serif;
+  margin: 0;
 }
 
 .loginButton {
-  /* width: 100px; */
-  display: flex;                
-  justify-content: center;    
-  align-items: center;         
-  padding: 15px 20px;          
-  background-color: #28a745;   
-  color: white;                 
-  font-size: 20px;             
-  border-radius: 10px;        
+  width: 140px; 
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px; 
+  background-color: #28a745;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px; 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
-  cursor: pointer;              
-  text-align: center; 
-  transition-duration: 0.4s;
+  cursor: pointer;
+  transition: all 0.3s ease; 
+  text-align: center;
 }
 
 .loginButton:hover {
-  background-color: #218838;
+  background-color: #218838; 
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); 
 }
+
 
 .body {
   display: flex;               

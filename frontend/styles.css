@@ -22,76 +22,58 @@ body {
 
 header {
   display: flex;
+  justify-content: space-between; /* Ensures space between title and buttons */
+  align-items: center; /* Centers items vertically */
   background-color: #007bff;
   color: white;
-  padding: 1em;
-  text-align: center;  
-  justify-content: center;
+  padding: 1em 2em; /* Adds consistent padding on sides */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds subtle shadow */
+  position: sticky; /* Sticks header to the top */
+  top: 0;
+  z-index: 1000;
 }
 
 .title {
-  font-size: 3rem;             
-  font-weight: bold;             
-  color: white;           
-  letter-spacing: 2px;         
-  text-transform: capitalize;  
-  margin: 0 100px;                   
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  font-family: 'Arial', sans-serif; 
-}
-
-.subTitle {
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: bold;
-  margin: 20px 0;
+  color: white;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-family: 'Arial', sans-serif;
 }
 
 .nav {
   display: flex;
+  gap: 10px; /* Adds spacing between buttons */
+}
+
+.nav div {
+  width: 120px; /* Adjusted width for better appearance */
+  height: 45px;
+  display: flex;
   justify-content: center;
+  align-items: center;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.infoButton {
-  width: 100px;
-  height: 50px;
-  display: flex;                
-  justify-content: center;    
-  align-items: center;         
-  padding: 15px 20px;      
-  margin: 0 10px;    
-  background-color: #28a745;   
-  color: white;                 
-  font-size: 20px;             
-  border-radius: 10px;        
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
-  cursor: pointer;              
-  text-align: center; 
-  transition-duration: 0.4s;
-}
-
-.infoButton:hover {
+.nav div:hover {
   background-color: #218838;
 }
 
-.logoutButton {
-  width: 100px;
-  height: 50px;
-  display: flex;                
-  justify-content: center;    
-  align-items: center;         
-  padding: 15px 20px;          
-  background-color: #ff1e1e;   
-  color: white;                 
-  font-size: 20px;             
-  border-radius: 10px;        
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
-  cursor: pointer;              
-  text-align: center; 
-  transition-duration: 0.4s;
+.nav .logoutButton {
+  background-color: #dc3545; /* Updated color for a more polished red */
 }
 
-.logoutButton:hover {
-  background-color: #aa1414;
+.nav .logoutButton:hover {
+  background-color: #c82333;
 }
 
 

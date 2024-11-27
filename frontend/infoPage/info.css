@@ -22,81 +22,168 @@ body {
 
 header {
   display: flex;
+  justify-content: space-between; /* Ensures space between title and buttons */
+  align-items: center; /* Centers items vertically */
   background-color: #007bff;
   color: white;
-  padding: 1em;
-  text-align: center;  
-  justify-content: center;
+  padding: 1em 2em; /* Adds consistent padding on sides */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds subtle shadow */
+  position: sticky; /* Sticks header to the top */
+  top: 0;
+  z-index: 1000;
 }
 
 .title {
-  font-size: 3rem;             
-  font-weight: bold;             
-  color: white;           
-  letter-spacing: 2px;         
-  text-transform: capitalize;  
-  margin: 0 100px;                   
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-  font-family: 'Arial', sans-serif; 
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-family: 'Arial', sans-serif;
 }
 
 .nav {
   display: flex;
-  justify-content: center;
+  gap: 10px; /* Adds spacing between buttons */
 }
 
-.backButton {
-  width: 100px;
-  height: 50px;
-  display: flex;                
-  justify-content: center;    
-  align-items: center;         
-  padding: 15px 20px;      
-  margin: 0 10px;    
-  background-color: #28a745;   
-  color: white;                 
-  font-size: 20px;             
-  border-radius: 10px;        
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
-  cursor: pointer;              
-  text-align: center; 
-  transition-duration: 0.4s;
-}
-
-.backButton:hover {
-  background-color: #218838;
-}
-
-.logoutButton {
-  width: 100px;
-  height: 50px;
-  display: flex;                
-  justify-content: center;    
-  align-items: center;         
-  padding: 15px 20px;          
-  background-color: #ff1e1e;   
-  color: white;                 
-  font-size: 20px;             
-  border-radius: 10px;        
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); 
-  cursor: pointer;              
-  text-align: center; 
-  transition-duration: 0.4s;
-}
-
-.logoutButton:hover {
-  background-color: #aa1414;
-}
-
-.container {
+.nav div {
+  width: 120px; /* Adjusted width for better appearance */
+  height: 45px;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
-  margin: 30px 300px 100px 50px;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav div:hover {
+  background-color: #218838;
+}
+
+.nav .logoutButton {
+  background-color: #dc3545; /* Updated color for a more polished red */
+}
+
+.nav .logoutButton:hover {
+  background-color: #c82333;
 }
 
 
+/* Container Styling */
+.container {
+  max-width: 1200px;
+  margin: 30px auto 70px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Info Section */
+.project-info {
+  text-align: center;
+  margin: 40px auto;
+  padding: 20px;
+  max-width: 800px;
+}
+
+.project-info h1 {
+  font-size: 2rem;
+  color: #0056b3;
+  margin-bottom: 10px;
+  border-bottom: 3px solid #e3f2fd;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.project-info .platform-intro {
+  font-size: 1.1rem;
+  color: #333;
+  text-align: justify;
+  line-height: 1.8;
+  margin-top: 20px;
+}
+
+
+
+/* Members Section */
+.members-info {
+  text-align: center;
+  margin: 40px auto;
+  padding: 20px;
+  max-width: 800px;
+}
+
+.members-info h1 {
+  font-size: 2rem;
+  color: #0056b3;
+  margin-bottom: 10px;
+  border-bottom: 3px solid #e3f2fd;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.members-info p {
+  font-size: 1.1rem;
+  color: #333;
+  text-align: justify;
+  line-height: 1.8;
+  margin-top: 20px;
+}
+
+
+.member-intro {
+  font-size: 1rem;
+  color: #666;
+  text-align: center;
+  margin: 20px auto;
+  max-width: 800px;
+  line-height: 1.8;
+}
+
+/* Individual Member Cards */
+.member {
+  background-color: #f4f4f9;
+  padding: 20px;
+  border-radius: 10px;
+  margin: 20px auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 800px;
+}
+
+.member:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.member h2 {
+  font-size: 1.5rem;
+  color: #0056b3;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.member div {
+  font-size: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+/* Spacing Between Members */
+.member + .member {
+  margin-top: 30px;
+}
+
+/* Footer Styling */
 footer {
   text-align: center;
   padding: 10px;
