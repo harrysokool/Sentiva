@@ -2,6 +2,7 @@
 let fileName = null;
 let getResults = false;
 let resultToDownload = null;
+let result = null;
 
 // see if the user is logged in
 document.addEventListener("DOMContentLoaded", () => {
@@ -97,31 +98,62 @@ document
     console.log("API URL:", apiUrl);
 
     try {
-      const response = await fetch(apiUrl, {
-        method: "GET",
-      });
+      if (!resultToDownload) {
+        const response = await fetch(apiUrl, {
+          method: "GET",
+        });
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+
+        result = await response.json();
+        resultToDownload = result;
       }
 
-      const result = await response.json();
-      resultToDownload = result;
+      result = resultToDownload;
       console.log("Raw API Response:", result);
 
       const results = JSON.parse(result.body);
       console.log("Parsed Results:", results);
 
-      const resultsList = document.getElementById("resultsList");
-      resultsList.innerHTML = "";
-      results.forEach(([text, emotion, score]) => {
-        const listItem = document.createElement("li");
-        listItem.textContent = `Text: "${text}" | Emotion: ${emotion} | Score: ${parseFloat(
-          score
-        ).toFixed(4)}`;
-        resultsList.appendChild(listItem);
+      const resultsTable = document.getElementById("resultsTable");
+      resultsTable.innerHTML = "";
+
+      const table = document.createElement("table");
+      table.border = "1";
+
+      const headerRow = document.createElement("tr");
+      ["Index", "Text", "Sentiment", "Probability"].forEach((headerText) => {
+        const th = document.createElement("th");
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+      });
+      table.appendChild(headerRow);
+
+      results.forEach(([text, emotion, score], index) => {
+        const row = document.createElement("tr");
+
+        const indexCell = document.createElement("td");
+        indexCell.textContent = index + 1;
+        row.appendChild(indexCell);
+
+        const textCell = document.createElement("td");
+        textCell.textContent = text;
+        row.appendChild(textCell);
+
+        const emotionCell = document.createElement("td");
+        emotionCell.textContent = emotion;
+        row.appendChild(emotionCell);
+
+        const scoreCell = document.createElement("td");
+        scoreCell.textContent = parseFloat(score).toFixed(4);
+        row.appendChild(scoreCell);
+
+        table.appendChild(row);
       });
 
+      resultsTable.appendChild(table);
       document.getElementById("resultsContainer").style.display = "block";
       getResults = true;
     } catch (error) {
@@ -141,7 +173,7 @@ document.getElementById("downloadResultsBtn").addEventListener("click", () => {
   const blob = new Blob([resultContent], { type: "application/json" });
 
   const downloadLink = document.createElement("a");
-  const datasetName = fileName.replace(".json", "_result.json"); // Generate file name
+  const datasetName = fileName.replace(".json", "_result.json");
   downloadLink.href = URL.createObjectURL(blob);
   downloadLink.download = datasetName;
   downloadLink.style.display = "none";
@@ -156,13 +188,12 @@ document.getElementById("deleteResultsBtn").addEventListener("click", () => {
   fileName = null;
   getResults = false;
   resultToDownload = null;
+  result = null;
 
-  const resultsList = document.getElementById("resultsList");
+  const resultsList = document.getElementById("resultsTable");
   resultsList.innerHTML = "";
 
-  // Optionally hide the results container and download button
   document.getElementById("resultsContainer").style.display = "none";
 
-  // Optionally log for debugging
   console.log("Global variables reset and results cleared.");
 });
