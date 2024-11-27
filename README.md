@@ -1,4 +1,4 @@
-# Cloud-Based Sentiment Analysis 
+# Sentiva: Cloud-Based Sentiment Analysis 
 
 This project is a machine learning application designed to analyze and identify the sentiment conveyed in both text and visual media, including images and artwork.
 
