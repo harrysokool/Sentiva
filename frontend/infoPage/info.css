@@ -22,13 +22,13 @@ body {
 
 header {
   display: flex;
-  justify-content: space-between; /* Ensures space between title and buttons */
-  align-items: center; /* Centers items vertically */
+  justify-content: space-between; 
+  align-items: center; 
   background-color: #007bff;
   color: white;
-  padding: 1em 2em; /* Adds consistent padding on sides */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds subtle shadow */
-  position: sticky; /* Sticks header to the top */
+  padding: 1em 2em; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: sticky; 
   top: 0;
   z-index: 1000;
 }
@@ -44,11 +44,11 @@ header {
 
 .nav {
   display: flex;
-  gap: 10px; /* Adds spacing between buttons */
+  gap: 10px; 
 }
 
 .nav div {
-  width: 120px; /* Adjusted width for better appearance */
+  width: 120px; 
   height: 45px;
   display: flex;
   justify-content: center;
@@ -69,7 +69,7 @@ header {
 }
 
 .nav .logoutButton {
-  background-color: #dc3545; /* Updated color for a more polished red */
+  background-color: #dc3545; 
 }
 
 .nav .logoutButton:hover {

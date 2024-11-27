@@ -25,19 +25,20 @@
   </header>
 
   <!-- Upload Section -->
-  <div class="upload" style="display: none;">
-    <div>
-      <div class="subTitle">Upload Text or Image</div>
-      <form id="uploadForm">
+  <div class="upload">
+    <div class="upload-container">
+      <h2 class="subTitle">Upload Text or Image</h2>
+      <form id="uploadForm" class="upload-form">
         <div class="uploadData">
-          <label for="fileInput">Choose a file (Maximum 10MB):</label>
-          <input type="file" id="fileInput" accept=".txt,.json,.csv,image/*" required>
+          <label for="fileInput" class="file-label">Choose a file (Maximum 10MB):</label>
+          <input type="file" id="fileInput" class="file-input" accept=".txt,.json,.csv,image/*" required>
         </div>
-        <button type="submit">Upload and Analyze</button>
+        <button type="submit" class="upload-button">Upload and Analyze</button>
       </form>
-      <p class="uploadMSG" id="uploadMessage" style="display: none;"></p>
+      <p class="uploadMSG" id="uploadMessage" style="display: none;">Your file has been uploaded successfully!</p>
     </div>
   </div>
+
   
 
   <!-- Results Section -->
@@ -52,9 +53,13 @@
       <div id="resultsTable"> </div>
     </div>
   </div>
+
+
   <br>
   <br>
   <br>  
+
+  <!-- Footer -->
   <footer>
     <p>&copy; 2024 Sentiment Analysis Platform</p>
   </footer>
