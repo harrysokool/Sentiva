@@ -93,7 +93,9 @@ document
     let partitionKey = fileName.replace(".json", "").trim();
     console.log("Partition Key:", partitionKey);
 
-    let apiUrl = `https://rpj7jmku7c.execute-api.ca-central-1.amazonaws.com/stage0/getResult?partitionKey=testDataSet2`;
+    let apiUrl =
+      `https://rpj7jmku7c.execute-api.ca-central-1.amazonaws.com/stage0/getResult?partitionKey=` +
+      partitionKey;
     console.log("API URL:", apiUrl);
 
     try {
