@@ -3,6 +3,40 @@ let fileName = null;
 let getResults = false;
 let resultToDownload = null;
 
+// Redirect to login page if the user is not logged in
+window.onload = () => {
+  const isLoggedIn = sessionStorage.getItem("isLoggedIn");
+  if (!isLoggedIn) {
+    alert("You need to log in first!");
+    window.location.href = "loginPage/loginPage.html";
+  }
+};
+
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted) {
+    const isLoggedIn = sessionStorage.getItem("isLoggedIn");
+    if (!isLoggedIn) {
+      alert("You need to log in first!");
+      window.location.href = "loginPage/loginPage.html";
+    }
+  }
+});
+
+// Reset global variables and UI on page reload
+window.onload = () => {
+  fileName = null;
+  getResults = false;
+  resultToDownload = null;
+
+  console.log("Global variables reset!");
+
+  // Clear UI elements
+  document.getElementById("resultsTable").innerHTML = ""; // Clear results table
+  document.getElementById("resultsContainer").style.display = "none"; // Hide results container
+  document.getElementById("uploadMessage").style.display = "none"; // Hide upload message
+  document.getElementById("fileInput").value = ""; // Clear file input
+};
+
 // see if the user is logged in
 document.addEventListener("DOMContentLoaded", () => {
   const isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -107,6 +141,7 @@ document
 
       // Parse the raw JSON response
       const results = await response.json();
+      resultToDownload = results;
       console.log("Raw API Response:", results);
 
       // Populate the results table
