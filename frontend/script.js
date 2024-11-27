@@ -1,5 +1,7 @@
 // Global variables
 let fileName = null;
+let getResults = false;
+let resultToDownload = null;
 
 // see if the user is logged in
 document.addEventListener("DOMContentLoaded", () => {
@@ -91,7 +93,7 @@ document
     let partitionKey = fileName.replace(".json", "").trim();
     console.log("Partition Key:", partitionKey);
 
-    let apiUrl = `https://ju6ivpqe76.execute-api.ca-central-1.amazonaws.com/stage0/getResult?partitionKey=${partitionKey}`;
+    let apiUrl = `https://rpj7jmku7c.execute-api.ca-central-1.amazonaws.com/stage0/getResult?partitionKey=testDataSet2`;
     console.log("API URL:", apiUrl);
 
     try {
@@ -104,6 +106,7 @@ document
       }
 
       const result = await response.json();
+      resultToDownload = result;
       console.log("Raw API Response:", result);
 
       const results = JSON.parse(result.body);
@@ -120,6 +123,7 @@ document
       });
 
       document.getElementById("resultsContainer").style.display = "block";
+      getResults = true;
     } catch (error) {
       console.error("Failed to fetch results:", error);
       alert("Failed to fetch results. Please try again.");
@@ -127,5 +131,38 @@ document
   });
 
 // Handle download results button click
+document.getElementById("downloadResultsBtn").addEventListener("click", () => {
+  if (!resultToDownload) {
+    alert("No results available to download.");
+    return;
+  }
+
+  const resultContent = JSON.stringify(resultToDownload, null, 2);
+  const blob = new Blob([resultContent], { type: "application/json" });
+
+  const downloadLink = document.createElement("a");
+  const datasetName = fileName.replace(".json", "_result.json"); // Generate file name
+  downloadLink.href = URL.createObjectURL(blob);
+  downloadLink.download = datasetName;
+  downloadLink.style.display = "none";
+
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+});
 
 // Handle clear results button click
+document.getElementById("deleteResultsBtn").addEventListener("click", () => {
+  fileName = null;
+  getResults = false;
+  resultToDownload = null;
+
+  const resultsList = document.getElementById("resultsList");
+  resultsList.innerHTML = "";
+
+  // Optionally hide the results container and download button
+  document.getElementById("resultsContainer").style.display = "none";
+
+  // Optionally log for debugging
+  console.log("Global variables reset and results cleared.");
+});
