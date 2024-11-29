@@ -44,11 +44,11 @@ document
       users[username] = { password: password1 };
       localStorage.setItem("users", JSON.stringify(users));
       alert("Registration successful! Redirecting to login...");
-      window.location.href = "/../frontend/loginPage/loginPage.html";
+      window.location.href = "/../Sentiva/loginPage/loginPage.html";
     }
   });
 
 // Handle login button click
 document.getElementById("loginButton").addEventListener("click", function () {
-  window.location.href = "/../frontend/loginPage/loginPage.html";
+  window.location.href = "/../Sentiva/loginPage/loginPage.html";
 });
