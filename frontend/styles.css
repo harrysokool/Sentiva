@@ -248,20 +248,30 @@ button:hover {
 }
 
 #adminActions {
+  display: none; /* Hidden by default */
   margin-top: 20px;
+  text-align: center; /* Center the button */
 }
 
-button {
-  padding: 10px 15px;
-  font-size: 16px;
-  border-radius: 5px;
+#adminActions button {
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  color: white;
+  background: linear-gradient(135deg, #6c757d, #343a40); /* Subtle gradient for the button */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-button:hover {
-  background-color: #ddd;
+#adminActions button:hover {
+  background: linear-gradient(135deg, #5a6268, #23272b); /* Darker gradient on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
+
 
 footer {
   text-align: center;
