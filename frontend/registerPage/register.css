@@ -94,35 +94,36 @@ header {
   text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+/* Form Inputs */
 input[type="text"],
 input[type="password"] {
   width: 100%;
-  padding: 12px;
-  margin: 12px 0; 
+  padding: 12px 15px;
+  margin: 10px 0;
   border: 1px solid #ccc;
-  border-radius: 8px; 
+  border-radius: 5px;
   font-size: 1rem;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease; 
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 input[type="text"]:focus,
 input[type="password"]:focus {
   border-color: #007bff;
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
-  outline: none; 
+  outline: none;
 }
 
 label {
   font-size: 1rem;
+  font-weight: bold;
   color: #555;
-  display: block;
   text-align: left;
-  margin-bottom: 6px;
+  display: block;
+  margin-bottom: 5px;
 }
 
 button {
-background: linear-gradient(135deg, #28a745, #1e7a34);
+  background: linear-gradient(135deg, #007bff, #0056b3); 
   color: white;
   border: none;
   padding: 12px 18px;
@@ -139,17 +140,17 @@ background: linear-gradient(135deg, #28a745, #1e7a34);
 button:hover {
   transform: translateY(-3px); 
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); 
-  background: linear-gradient(135deg, #1e7a34, #155724);
+  background: linear-gradient(135deg, #0056b3, #004085);
 }
 
 .registerButton {
-  background: linear-gradient(135deg, #007bff, #0056b3); 
+  background: linear-gradient(135deg, #28a745, #1e7a34);
   color: white;
   margin-top: 15px;
 }
 
 .registerButton:hover {
-  background: linear-gradient(135deg, #0056b3, #004085);
+  background: linear-gradient(135deg, #1e7a34, #155724);
 }
 
 .registerButton:hover,

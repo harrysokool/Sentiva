@@ -3,6 +3,28 @@ let fileName = null;
 let getResults = false;
 let resultToDownload = null;
 
+// Load user data from localStorage
+let users = JSON.parse(localStorage.getItem("users")) || {};
+
+// Check if a user is logged in
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+console.log("Current User:", currentUser);
+
+// Function to show admin actions if the logged-in user is admin
+function showAdminActions() {
+  const adminActionsDiv = document.getElementById("adminActions");
+
+  if (currentUser && currentUser.role === "admin") {
+    console.log("Admin logged in!");
+    adminActionsDiv.style.display = "block";
+  } else {
+    console.log("Non-admin user logged in!");
+    adminActionsDiv.style.display = "none";
+  }
+}
+
+window.onload = showAdminActions();
+
 // Redirect to login page if the user is not logged in
 window.onload = () => {
   const isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -235,3 +257,28 @@ document.getElementById("deleteResultsBtn").addEventListener("click", () => {
 
   console.log("Global variables reset and results cleared.");
 });
+
+// Function to clear all users except admin
+function clearUsersExceptAdmin() {
+  if (!users || typeof users !== "object" || Object.keys(users).length === 0) {
+    alert("No users found to clear!");
+    return;
+  }
+
+  const updatedUsers = {};
+
+  for (const [username, userInfo] of Object.entries(users)) {
+    if (username === "admin") {
+      updatedUsers[username] = userInfo;
+    }
+  }
+  localStorage.setItem("users", JSON.stringify(updatedUsers));
+  users = updatedUsers;
+
+  alert("All users except admin have been cleared!");
+}
+
+// Attach the event listener to the button dynamically
+document
+  .querySelector("#adminActions button")
+  .addEventListener("click", clearUsersExceptAdmin);
