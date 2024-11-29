@@ -27,5 +27,5 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
 });
 
 document.querySelector(".registerButton").addEventListener("click", () => {
-  window.location.href = "/../frontend/registerPage/register.html";
+  window.location.href = "/../doc/registerPage/register.html";
 });

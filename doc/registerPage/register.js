@@ -14,13 +14,22 @@ document
     const password2 = document.getElementById("password2").value.trim();
     const otp = document.getElementById("otp").value.trim();
 
+    if (!username || !password1 || !password2 || !otp) {
+      alert("All fields are required!");
+      return;
+    }
+
     if (password1 !== password2) {
       alert("Passwords do not match!");
       return;
     }
 
-    if (!username || !password1 || !otp) {
-      alert("All fields are required!");
+    // Strong password validation
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    if (!passwordRegex.test(password1)) {
+      alert(
+        "Password must be at least 8 characters long and include at least one uppercase letter and one number."
+      );
       return;
     }
 
@@ -35,11 +44,11 @@ document
       users[username] = { password: password1 };
       localStorage.setItem("users", JSON.stringify(users));
       alert("Registration successful! Redirecting to login...");
-      window.location.href = "/../frontend/loginPage/loginPage.html";
+      window.location.href = "/../doc/loginPage/loginPage.html";
     }
   });
 
 // Handle login button click
 document.getElementById("loginButton").addEventListener("click", function () {
-  window.location.href = "/../frontend/loginPage/loginPage.html";
+  window.location.href = "/../doc/loginPage/loginPage.html";
 });
