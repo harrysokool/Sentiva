@@ -284,7 +284,10 @@ document.getElementById("downloadResultsBtn").addEventListener("click", () => {
   const blob = new Blob([resultContent], { type: "application/json" });
 
   const downloadLink = document.createElement("a");
-  const datasetName = fileName.replace(".json", "_result.json");
+  const datasetName = fileName.replace(
+    /\.(json|png|jpg|jpeg|svg|gif)$/,
+    "_result.json"
+  ); // Replace file extension
   downloadLink.href = URL.createObjectURL(blob);
   downloadLink.download = datasetName;
   downloadLink.style.display = "none";
