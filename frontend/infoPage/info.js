@@ -2,7 +2,7 @@
 document.getElementById("logoutButton").addEventListener("click", () => {
   sessionStorage.removeItem("isLoggedIn");
   alert("You have been logged out.");
-  window.location.href = "/../docs/loginPage/loginPage.html";
+  window.location.href = "/../frontend/loginPage/loginPage.html";
 });
 
 // see if the user is logged in
@@ -14,6 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!isLoggedIn) {
     alert("You must log in to access this content.");
-    window.location.href = "/../docs/loginPage/loginPage.html";
+    window.location.href = "/../frontend/loginPage/loginPage.html";
   }
 });
