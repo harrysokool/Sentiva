@@ -24,6 +24,52 @@ function showAdminActions() {
   }
 }
 
+// Function to clear all users except admin
+function clearUsersExceptAdmin() {
+  if (!users || typeof users !== "object" || Object.keys(users).length === 0) {
+    alert("No users found to clear!");
+    return;
+  }
+
+  const updatedUsers = {};
+
+  for (const [username, userInfo] of Object.entries(users)) {
+    if (username === "admin") {
+      updatedUsers[username] = userInfo;
+    }
+  }
+  localStorage.setItem("users", JSON.stringify(updatedUsers));
+  users = updatedUsers;
+
+  alert("All users except admin have been cleared!");
+}
+
+// Function to clear results and reset global variables
+function clearResult() {
+  fileName = null;
+  getResults = false;
+  resultToDownload = null;
+  imageUrl = null;
+
+  const resultsList = document.getElementById("resultsTable");
+  resultsList.innerHTML = "";
+
+  document.getElementById("resultsContainer").style.display = "none";
+
+  const uploadMessage = document.getElementById("uploadMessage");
+  if (uploadMessage) {
+    uploadMessage.textContent = "";
+    uploadMessage.style.display = "none";
+  }
+
+  const fileInput = document.getElementById("fileInput");
+  if (fileInput) {
+    fileInput.value = "";
+  }
+
+  console.log("Global variables reset and results cleared.");
+}
+
 window.onload = showAdminActions();
 
 // Redirect to login page if the user is not logged in
@@ -55,10 +101,10 @@ window.onload = () => {
   console.log("Global variables reset!");
 
   // Clear UI elements
-  document.getElementById("resultsTable").innerHTML = ""; // Clear results table
-  document.getElementById("resultsContainer").style.display = "none"; // Hide results container
-  document.getElementById("uploadMessage").style.display = "none"; // Hide upload message
-  document.getElementById("fileInput").value = ""; // Clear file input
+  document.getElementById("resultsTable").innerHTML = "";
+  document.getElementById("resultsContainer").style.display = "none";
+  document.getElementById("uploadMessage").style.display = "none";
+  document.getElementById("fileInput").value = "";
 };
 
 // see if the user is logged in
@@ -91,6 +137,8 @@ document
   .getElementById("uploadForm")
   .addEventListener("submit", async (event) => {
     event.preventDefault();
+
+    // clearResult();
 
     const fileInput = document.getElementById("fileInput");
     const file = fileInput.files[0];
@@ -181,8 +229,8 @@ document
         const reader = new FileReader();
 
         reader.onload = function (e) {
-          imgElement.src = e.target.result; // Set the source of the existing image
-          imgElement.alt = "Uploaded Image"; // Set alt text
+          imgElement.src = e.target.result;
+          imgElement.alt = "Uploaded Image";
         };
 
         // Read the uploaded file as a Data URL
@@ -197,7 +245,7 @@ document
 
         // Create a table for displaying sentiment and probability
         const table = document.createElement("table");
-        table.classList.add("sentiment-table"); // Add a class for styling
+        table.classList.add("sentiment-table");
 
         // Add a header row
         const headerRow = document.createElement("tr");
@@ -225,6 +273,9 @@ document
 
         // Append the table below the image
         graphSentiment.appendChild(table);
+
+        const resultsTable = document.getElementById("resultsTable");
+        resultsTable.innerHTML = "";
       } else {
         // Populate the results table
         const resultsTable = document.getElementById("resultsTable");
@@ -297,52 +348,6 @@ document.getElementById("downloadResultsBtn").addEventListener("click", () => {
   document.body.removeChild(downloadLink);
 });
 
-// Handle clear results button click
-document.getElementById("deleteResultsBtn").addEventListener("click", () => {
-  fileName = null;
-  getResults = false;
-  resultToDownload = null;
-  imageUrl = null;
-
-  const resultsList = document.getElementById("resultsTable");
-  resultsList.innerHTML = "";
-
-  document.getElementById("resultsContainer").style.display = "none";
-
-  const uploadMessage = document.getElementById("uploadMessage");
-  if (uploadMessage) {
-    uploadMessage.textContent = "";
-    uploadMessage.style.display = "none";
-  }
-
-  const fileInput = document.getElementById("fileInput");
-  if (fileInput) {
-    fileInput.value = "";
-  }
-
-  console.log("Global variables reset and results cleared.");
-});
-
-// Function to clear all users except admin
-function clearUsersExceptAdmin() {
-  if (!users || typeof users !== "object" || Object.keys(users).length === 0) {
-    alert("No users found to clear!");
-    return;
-  }
-
-  const updatedUsers = {};
-
-  for (const [username, userInfo] of Object.entries(users)) {
-    if (username === "admin") {
-      updatedUsers[username] = userInfo;
-    }
-  }
-  localStorage.setItem("users", JSON.stringify(updatedUsers));
-  users = updatedUsers;
-
-  alert("All users except admin have been cleared!");
-}
-
 // Attach the event listener to the button dynamically
 document
   .querySelector("#adminActions button")
@@ -357,3 +362,8 @@ function isImageFile(fileName) {
     lowerCaseFileName.includes(extension)
   );
 }
+
+// Handle clear results button click
+document.getElementById("deleteResultsBtn").addEventListener("click", () => {
+  clearResult();
+});
