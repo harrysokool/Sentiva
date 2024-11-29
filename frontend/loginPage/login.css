@@ -43,6 +43,19 @@ header {
   margin: 0;
 }
 
+/* Logo and Title Container */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px; 
+}
+
+/* Logo Styling */
+.logo {
+  height: 50px; 
+  width: auto;
+}
+
 .loginButton {
   width: 140px; 
   height: 45px;

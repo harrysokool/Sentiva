@@ -2,6 +2,7 @@
 let fileName = null;
 let getResults = false;
 let resultToDownload = null;
+let imageUrl = null;
 
 // Load user data from localStorage
 let users = JSON.parse(localStorage.getItem("users")) || {};
@@ -49,6 +50,7 @@ window.onload = () => {
   fileName = null;
   getResults = false;
   resultToDownload = null;
+  imageUrl = null;
 
   console.log("Global variables reset!");
 
@@ -93,6 +95,7 @@ document
     const fileInput = document.getElementById("fileInput");
     const file = fileInput.files[0];
     fileName = file.name;
+    imageUrl = file;
 
     if (!file) {
       alert("Please choose a file to upload.");
@@ -145,8 +148,9 @@ document
       alert("Please upload a file first.");
       return;
     }
+    let isImage = isImageFile(fileName);
 
-    let partitionKey = fileName.replace(".json", "").trim();
+    let partitionKey = fileName.substring(0, fileName.lastIndexOf(".")).trim();
     console.log("Partition Key:", partitionKey);
 
     let apiUrl = `https://rpj7jmku7c.execute-api.ca-central-1.amazonaws.com/stage0/getResult?partitionKey=${partitionKey}`;
@@ -165,45 +169,102 @@ document
       const results = await response.json();
       resultToDownload = results;
       console.log("Raw API Response:", results);
+      if (isImage) {
+        const resultForGraph = document.getElementById("resultForGraph");
+        const graphSentiment = document.getElementById("graphSentiment");
+        const imgElement = resultForGraph.querySelector("img");
 
-      // Populate the results table
-      const resultsTable = document.getElementById("resultsTable");
-      resultsTable.innerHTML = "";
+        // Clear existing content inside graphSentiment (but keep the image)
+        graphSentiment.innerHTML = "";
 
-      const table = document.createElement("table");
-      table.border = "1";
+        // Use FileReader to load the image
+        const reader = new FileReader();
 
-      const headerRow = document.createElement("tr");
-      ["Index", "Text", "Sentiment", "Probability"].forEach((headerText) => {
-        const th = document.createElement("th");
-        th.textContent = headerText;
-        headerRow.appendChild(th);
-      });
-      table.appendChild(headerRow);
+        reader.onload = function (e) {
+          imgElement.src = e.target.result; // Set the source of the existing image
+          imgElement.alt = "Uploaded Image"; // Set alt text
+        };
 
-      results.forEach(([text, emotion, score], index) => {
-        const row = document.createElement("tr");
+        // Read the uploaded file as a Data URL
+        reader.readAsDataURL(imageUrl);
 
-        const indexCell = document.createElement("td");
-        indexCell.textContent = index + 1;
-        row.appendChild(indexCell);
+        // Assuming the response contains sentiment data
+        const [text, sentiment, probability] = results[0];
 
-        const textCell = document.createElement("td");
-        textCell.textContent = text;
-        row.appendChild(textCell);
+        // Log the data for debugging
+        console.log("Sentiment:", sentiment);
+        console.log("Probability:", probability);
 
-        const emotionCell = document.createElement("td");
-        emotionCell.textContent = emotion;
-        row.appendChild(emotionCell);
+        // Create a table for displaying sentiment and probability
+        const table = document.createElement("table");
+        table.classList.add("sentiment-table"); // Add a class for styling
 
-        const scoreCell = document.createElement("td");
-        scoreCell.textContent = parseFloat(score).toFixed(4);
-        row.appendChild(scoreCell);
+        // Add a header row
+        const headerRow = document.createElement("tr");
+        headerRow.innerHTML = `
+          <th>Attribute</th>
+          <th>Value</th>
+        `;
+        table.appendChild(headerRow);
 
-        table.appendChild(row);
-      });
+        // Add a row for sentiment
+        const sentimentRow = document.createElement("tr");
+        sentimentRow.innerHTML = `
+          <td>Sentiment</td>
+          <td>${sentiment}</td>
+        `;
+        table.appendChild(sentimentRow);
 
-      resultsTable.appendChild(table);
+        // Add a row for probability
+        const probabilityRow = document.createElement("tr");
+        probabilityRow.innerHTML = `
+          <td>Probability</td>
+          <td>${parseFloat(probability).toFixed(4)}</td>
+        `;
+        table.appendChild(probabilityRow);
+
+        // Append the table below the image
+        graphSentiment.appendChild(table);
+      } else {
+        // Populate the results table
+        const resultsTable = document.getElementById("resultsTable");
+        resultsTable.innerHTML = "";
+
+        const table = document.createElement("table");
+        table.border = "1";
+
+        const headerRow = document.createElement("tr");
+        ["Index", "Text", "Sentiment", "Probability"].forEach((headerText) => {
+          const th = document.createElement("th");
+          th.textContent = headerText;
+          headerRow.appendChild(th);
+        });
+        table.appendChild(headerRow);
+
+        results.forEach(([text, emotion, score], index) => {
+          const row = document.createElement("tr");
+
+          const indexCell = document.createElement("td");
+          indexCell.textContent = index + 1;
+          row.appendChild(indexCell);
+
+          const textCell = document.createElement("td");
+          textCell.textContent = text;
+          row.appendChild(textCell);
+
+          const emotionCell = document.createElement("td");
+          emotionCell.textContent = emotion;
+          row.appendChild(emotionCell);
+
+          const scoreCell = document.createElement("td");
+          scoreCell.textContent = parseFloat(score).toFixed(4);
+          row.appendChild(scoreCell);
+
+          table.appendChild(row);
+        });
+
+        resultsTable.appendChild(table);
+      }
       document.getElementById("resultsContainer").style.display = "block";
       getResults = true;
     } catch (error) {
@@ -238,6 +299,7 @@ document.getElementById("deleteResultsBtn").addEventListener("click", () => {
   fileName = null;
   getResults = false;
   resultToDownload = null;
+  imageUrl = null;
 
   const resultsList = document.getElementById("resultsTable");
   resultsList.innerHTML = "";
@@ -282,3 +344,13 @@ function clearUsersExceptAdmin() {
 document
   .querySelector("#adminActions button")
   .addEventListener("click", clearUsersExceptAdmin);
+
+function isImageFile(fileName) {
+  const allowedExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "webp", "svg"];
+
+  const lowerCaseFileName = fileName.toLowerCase();
+
+  return allowedExtensions.some((extension) =>
+    lowerCaseFileName.includes(extension)
+  );
+}

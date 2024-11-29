@@ -33,6 +33,19 @@ header {
   z-index: 1000;
 }
 
+/* Logo and Title Container */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px; 
+}
+
+/* Logo Styling */
+.logo {
+  height: 50px; 
+  width: auto;
+}
+
 .title {
   font-size: 2.5rem;
   font-weight: bold;

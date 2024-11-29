@@ -20,17 +20,31 @@ body {
   color: #333;
 }
 
+/* Header Styles */
 header {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   background-color: #007bff;
   color: white;
-  padding: 1em 2em; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-  position: sticky; 
+  padding: 1em 2em;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
   top: 0;
   z-index: 1000;
+}
+
+/* Logo and Title Container */
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px; 
+}
+
+/* Logo Styling */
+.logo {
+  height: 50px; 
+  width: auto;
 }
 
 .title {
@@ -42,11 +56,13 @@ header {
   font-family: 'Arial', sans-serif;
 }
 
+/* Navigation Container */
 .nav {
   display: flex;
   gap: 10px;
 }
 
+/* Navigation Button Styling */
 .nav div {
   width: 120px;
   height: 45px;
@@ -77,6 +93,7 @@ header {
 }
 
 
+
 .upload,
 .results {
   background-color: #f9f9f9;
@@ -98,7 +115,10 @@ header {
   font-weight: bold;
   color: #007bff; 
   margin-bottom: 20px;
+  text-align: center; 
+  width: 100%; 
 }
+
 
 .uploadData {
   margin: 20px 0;
@@ -248,9 +268,9 @@ button:hover {
 }
 
 #adminActions {
-  display: none; /* Hidden by default */
-  margin-top: 20px;
-  text-align: center; /* Center the button */
+  display: none;
+  margin: 0 auto 100px auto;
+  text-align: center;
 }
 
 #adminActions button {
@@ -261,15 +281,67 @@ button:hover {
   border-radius: 8px;
   cursor: pointer;
   color: white;
-  background: linear-gradient(135deg, #6c757d, #343a40); /* Subtle gradient for the button */
+  background: linear-gradient(135deg, #6c757d, #343a40); 
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
 
 #adminActions button:hover {
-  background: linear-gradient(135deg, #5a6268, #23272b); /* Darker gradient on hover */
+  background: linear-gradient(135deg, #5a6268, #23272b);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+#resultForGraph {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  /* background-color: #ffffff; */
+  padding: 20px; 
+  border-radius: 10px; 
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  */
+}
+
+#resultForGraph img {
+  max-width: 80%;
+  height: auto; 
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+#graphSentiment {
+  width: 100%; 
+  max-width: 400px;
+}
+
+#graphSentiment table {
+  width: 100%; 
+  border-collapse: collapse; 
+  margin-top: 10px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+#graphSentiment th, #graphSentiment td {
+  text-align: left; 
+  padding: 10px; 
+  border: 1px solid #ddd; 
+}
+
+#graphSentiment th {
+  background-color: #007bff;
+  color: white; 
+  font-weight: bold; 
+}
+
+#graphSentiment tr:nth-child(even) {
+  background-color: #f9f9f9; 
+}
+
+#graphSentiment tr:hover {
+  background-color: #e9ecef; 
 }
 
 
