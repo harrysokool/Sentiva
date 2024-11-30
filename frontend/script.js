@@ -3,6 +3,7 @@ let fileName = null;
 let getResults = false;
 let resultToDownload = null;
 let imageUrl = null;
+let progressFinished = false;
 
 // Load user data from localStorage
 let users = JSON.parse(localStorage.getItem("users")) || {};
@@ -23,6 +24,8 @@ function showAdminActions() {
     adminActionsDiv.style.display = "none";
   }
 }
+
+window.onload = showAdminActions();
 
 // Function to clear all users except admin
 function clearUsersExceptAdmin() {
@@ -50,6 +53,7 @@ function clearResult() {
   getResults = false;
   resultToDownload = null;
   imageUrl = null;
+  progressFinished = false;
 
   const resultsList = document.getElementById("resultsTable");
   resultsList.innerHTML = "";
@@ -70,7 +74,24 @@ function clearResult() {
   console.log("Global variables reset and results cleared.");
 }
 
-window.onload = showAdminActions();
+// start the progress bar
+function startProgressBar(seconds = 30) {
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.getElementById("progressText");
+  let progress = 0;
+
+  const interval = setInterval(() => {
+    progress += 1;
+    progressBar.style.width = `${progress}%`;
+    progressText.textContent = `${progress}%`;
+
+    if (progress >= 100) {
+      clearInterval(interval);
+      progressText.textContent = "Complete!";
+      progressFinished = true;
+    }
+  }, seconds * 10);
+}
 
 // Redirect to login page if the user is not logged in
 window.onload = () => {
@@ -81,6 +102,7 @@ window.onload = () => {
   }
 };
 
+// Redirect to login page if the user is not logged in
 window.addEventListener("pageshow", (event) => {
   if (event.persisted) {
     const isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -97,6 +119,7 @@ window.onload = () => {
   getResults = false;
   resultToDownload = null;
   imageUrl = null;
+  progressFinished = false;
 
   console.log("Global variables reset!");
 
@@ -138,12 +161,19 @@ document
   .addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    // clearResult();
+    progressFinished = false;
+    const resultContainer = document.getElementById("resultsContainer");
+    const resultImage = document.getElementById("resultImage");
+    const imageSentiment = document.getElementById("graphSentiment");
+    resultContainer.style.display = "none";
+    resultImage.src = "";
+    imageSentiment.innerHTML = "";
 
     const fileInput = document.getElementById("fileInput");
     const file = fileInput.files[0];
     fileName = file.name;
     imageUrl = file;
+    let fileSize = file.size;
 
     if (!file) {
       alert("Please choose a file to upload.");
@@ -168,7 +198,9 @@ document
 
       if (response.ok) {
         const uploadResponse = document.querySelector(".uploadMSG");
+        const progressBar = document.getElementById("progressContainer");
         uploadResponse.style.display = "inline-block";
+        progressBar.style.display = "block";
         document.getElementById(
           "uploadMessage"
         ).textContent = `File "${file.name}" uploaded successfully!`;
@@ -179,6 +211,14 @@ document
           "uploadMessage"
         ).textContent = `Failed to upload file: ${errorMessage}`;
         document.getElementById("uploadMessage").style.color = "red";
+      }
+      // Call this function when you start processing\
+      if (fileSize < 1 * 1024 * 1024) {
+        startProgressBar(10);
+      } else if (fileSize < 5 * 1024 * 1024) {
+        startProgressBar(20);
+      } else {
+        startProgressBar(30);
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -192,6 +232,11 @@ document
 document
   .getElementById("viewResultsBtn")
   .addEventListener("click", async () => {
+    if (!progressFinished) {
+      alert("Please wait for the upload to finish.");
+      return;
+    }
+
     if (!fileName) {
       alert("Please upload a file first.");
       return;
@@ -218,9 +263,9 @@ document
       resultToDownload = results;
       console.log("Raw API Response:", results);
       if (isImage) {
-        const resultForGraph = document.getElementById("resultForGraph");
+        const resultForImage = document.getElementById("resultForImage");
         const graphSentiment = document.getElementById("graphSentiment");
-        const imgElement = resultForGraph.querySelector("img");
+        const imgElement = resultForImage.querySelector("img");
 
         // Clear existing content inside graphSentiment (but keep the image)
         graphSentiment.innerHTML = "";
@@ -236,6 +281,11 @@ document
         // Read the uploaded file as a Data URL
         reader.readAsDataURL(imageUrl);
 
+        // check if results are available
+        if (results.length === 0) {
+          alert("No results available for this image.");
+          return;
+        }
         // Assuming the response contains sentiment data
         const [text, sentiment, probability] = results[0];
 
@@ -279,11 +329,13 @@ document
       } else {
         // Populate the results table
         const resultsTable = document.getElementById("resultsTable");
-        resultsTable.innerHTML = "";
+        resultsTable.innerHTML = ""; // Clear previous content
 
+        // Create the table element
         const table = document.createElement("table");
-        table.border = "1";
+        table.classList.add("styled-table"); // Add class for consistent styling
 
+        // Add table header
         const headerRow = document.createElement("tr");
         ["Index", "Text", "Sentiment", "Probability"].forEach((headerText) => {
           const th = document.createElement("th");
@@ -292,6 +344,7 @@ document
         });
         table.appendChild(headerRow);
 
+        // Populate table rows
         results.forEach(([text, emotion, score], index) => {
           const row = document.createElement("tr");
 
@@ -300,20 +353,21 @@ document
           row.appendChild(indexCell);
 
           const textCell = document.createElement("td");
-          textCell.textContent = text;
+          textCell.textContent = text || "-"; // Handle empty text
           row.appendChild(textCell);
 
           const emotionCell = document.createElement("td");
-          emotionCell.textContent = emotion;
+          emotionCell.textContent = emotion || "-"; // Handle empty emotion
           row.appendChild(emotionCell);
 
           const scoreCell = document.createElement("td");
-          scoreCell.textContent = parseFloat(score).toFixed(4);
+          scoreCell.textContent = parseFloat(score).toFixed(4) || "-"; // Format probability
           row.appendChild(scoreCell);
 
           table.appendChild(row);
         });
 
+        // Append table to resultsTable div
         resultsTable.appendChild(table);
       }
       document.getElementById("resultsContainer").style.display = "block";
