@@ -3,6 +3,7 @@ let fileName = null;
 let getResults = false;
 let resultToDownload = null;
 let imageUrl = null;
+let progressFinished = false;
 
 // Load user data from localStorage
 let users = JSON.parse(localStorage.getItem("users")) || {};
@@ -26,6 +27,72 @@ function showAdminActions() {
 
 window.onload = showAdminActions();
 
+// Function to clear all users except admin
+function clearUsersExceptAdmin() {
+  if (!users || typeof users !== "object" || Object.keys(users).length === 0) {
+    alert("No users found to clear!");
+    return;
+  }
+
+  const updatedUsers = {};
+
+  for (const [username, userInfo] of Object.entries(users)) {
+    if (username === "admin") {
+      updatedUsers[username] = userInfo;
+    }
+  }
+  localStorage.setItem("users", JSON.stringify(updatedUsers));
+  users = updatedUsers;
+
+  alert("All users except admin have been cleared!");
+}
+
+// Function to clear results and reset global variables
+function clearResult() {
+  fileName = null;
+  getResults = false;
+  resultToDownload = null;
+  imageUrl = null;
+  progressFinished = false;
+
+  const resultsList = document.getElementById("resultsTable");
+  resultsList.innerHTML = "";
+
+  document.getElementById("resultsContainer").style.display = "none";
+
+  const uploadMessage = document.getElementById("uploadMessage");
+  if (uploadMessage) {
+    uploadMessage.textContent = "";
+    uploadMessage.style.display = "none";
+  }
+
+  const fileInput = document.getElementById("fileInput");
+  if (fileInput) {
+    fileInput.value = "";
+  }
+
+  console.log("Global variables reset and results cleared.");
+}
+
+// start the progress bar
+function startProgressBar(seconds = 30) {
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.getElementById("progressText");
+  let progress = 0;
+
+  const interval = setInterval(() => {
+    progress += 1;
+    progressBar.style.width = `${progress}%`;
+    progressText.textContent = `${progress}%`;
+
+    if (progress >= 100) {
+      clearInterval(interval);
+      progressText.textContent = "Complete!";
+      progressFinished = true;
+    }
+  }, seconds * 10);
+}
+
 // Redirect to login page if the user is not logged in
 window.onload = () => {
   const isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -35,6 +102,7 @@ window.onload = () => {
   }
 };
 
+// Redirect to login page if the user is not logged in
 window.addEventListener("pageshow", (event) => {
   if (event.persisted) {
     const isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -51,14 +119,15 @@ window.onload = () => {
   getResults = false;
   resultToDownload = null;
   imageUrl = null;
+  progressFinished = false;
 
   console.log("Global variables reset!");
 
   // Clear UI elements
-  document.getElementById("resultsTable").innerHTML = ""; // Clear results table
-  document.getElementById("resultsContainer").style.display = "none"; // Hide results container
-  document.getElementById("uploadMessage").style.display = "none"; // Hide upload message
-  document.getElementById("fileInput").value = ""; // Clear file input
+  document.getElementById("resultsTable").innerHTML = "";
+  document.getElementById("resultsContainer").style.display = "none";
+  document.getElementById("uploadMessage").style.display = "none";
+  document.getElementById("fileInput").value = "";
 };
 
 // see if the user is logged in
@@ -92,10 +161,19 @@ document
   .addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    progressFinished = false;
+    const resultContainer = document.getElementById("resultsContainer");
+    const resultImage = document.getElementById("resultImage");
+    const imageSentiment = document.getElementById("graphSentiment");
+    resultContainer.style.display = "none";
+    resultImage.src = "";
+    imageSentiment.innerHTML = "";
+
     const fileInput = document.getElementById("fileInput");
     const file = fileInput.files[0];
     fileName = file.name;
     imageUrl = file;
+    let fileSize = file.size;
 
     if (!file) {
       alert("Please choose a file to upload.");
@@ -120,7 +198,9 @@ document
 
       if (response.ok) {
         const uploadResponse = document.querySelector(".uploadMSG");
+        const progressBar = document.getElementById("progressContainer");
         uploadResponse.style.display = "inline-block";
+        progressBar.style.display = "block";
         document.getElementById(
           "uploadMessage"
         ).textContent = `File "${file.name}" uploaded successfully!`;
@@ -131,6 +211,14 @@ document
           "uploadMessage"
         ).textContent = `Failed to upload file: ${errorMessage}`;
         document.getElementById("uploadMessage").style.color = "red";
+      }
+      // Call this function when you start processing\
+      if (fileSize < 1 * 1024 * 1024) {
+        startProgressBar(10);
+      } else if (fileSize < 5 * 1024 * 1024) {
+        startProgressBar(20);
+      } else {
+        startProgressBar(30);
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -144,6 +232,11 @@ document
 document
   .getElementById("viewResultsBtn")
   .addEventListener("click", async () => {
+    if (!progressFinished) {
+      alert("Please wait for the upload to finish.");
+      return;
+    }
+
     if (!fileName) {
       alert("Please upload a file first.");
       return;
@@ -170,9 +263,9 @@ document
       resultToDownload = results;
       console.log("Raw API Response:", results);
       if (isImage) {
-        const resultForGraph = document.getElementById("resultForGraph");
+        const resultForImage = document.getElementById("resultForImage");
         const graphSentiment = document.getElementById("graphSentiment");
-        const imgElement = resultForGraph.querySelector("img");
+        const imgElement = resultForImage.querySelector("img");
 
         // Clear existing content inside graphSentiment (but keep the image)
         graphSentiment.innerHTML = "";
@@ -181,13 +274,18 @@ document
         const reader = new FileReader();
 
         reader.onload = function (e) {
-          imgElement.src = e.target.result; // Set the source of the existing image
-          imgElement.alt = "Uploaded Image"; // Set alt text
+          imgElement.src = e.target.result;
+          imgElement.alt = "Uploaded Image";
         };
 
         // Read the uploaded file as a Data URL
         reader.readAsDataURL(imageUrl);
 
+        // check if results are available
+        if (results.length === 0) {
+          alert("No results available for this image.");
+          return;
+        }
         // Assuming the response contains sentiment data
         const [text, sentiment, probability] = results[0];
 
@@ -197,7 +295,7 @@ document
 
         // Create a table for displaying sentiment and probability
         const table = document.createElement("table");
-        table.classList.add("sentiment-table"); // Add a class for styling
+        table.classList.add("sentiment-table");
 
         // Add a header row
         const headerRow = document.createElement("tr");
@@ -225,14 +323,19 @@ document
 
         // Append the table below the image
         graphSentiment.appendChild(table);
+
+        const resultsTable = document.getElementById("resultsTable");
+        resultsTable.innerHTML = "";
       } else {
         // Populate the results table
         const resultsTable = document.getElementById("resultsTable");
-        resultsTable.innerHTML = "";
+        resultsTable.innerHTML = ""; // Clear previous content
 
+        // Create the table element
         const table = document.createElement("table");
-        table.border = "1";
+        table.classList.add("styled-table"); // Add class for consistent styling
 
+        // Add table header
         const headerRow = document.createElement("tr");
         ["Index", "Text", "Sentiment", "Probability"].forEach((headerText) => {
           const th = document.createElement("th");
@@ -241,6 +344,7 @@ document
         });
         table.appendChild(headerRow);
 
+        // Populate table rows
         results.forEach(([text, emotion, score], index) => {
           const row = document.createElement("tr");
 
@@ -249,20 +353,21 @@ document
           row.appendChild(indexCell);
 
           const textCell = document.createElement("td");
-          textCell.textContent = text;
+          textCell.textContent = text || "-"; // Handle empty text
           row.appendChild(textCell);
 
           const emotionCell = document.createElement("td");
-          emotionCell.textContent = emotion;
+          emotionCell.textContent = emotion || "-"; // Handle empty emotion
           row.appendChild(emotionCell);
 
           const scoreCell = document.createElement("td");
-          scoreCell.textContent = parseFloat(score).toFixed(4);
+          scoreCell.textContent = parseFloat(score).toFixed(4) || "-"; // Format probability
           row.appendChild(scoreCell);
 
           table.appendChild(row);
         });
 
+        // Append table to resultsTable div
         resultsTable.appendChild(table);
       }
       document.getElementById("resultsContainer").style.display = "block";
@@ -297,52 +402,6 @@ document.getElementById("downloadResultsBtn").addEventListener("click", () => {
   document.body.removeChild(downloadLink);
 });
 
-// Handle clear results button click
-document.getElementById("deleteResultsBtn").addEventListener("click", () => {
-  fileName = null;
-  getResults = false;
-  resultToDownload = null;
-  imageUrl = null;
-
-  const resultsList = document.getElementById("resultsTable");
-  resultsList.innerHTML = "";
-
-  document.getElementById("resultsContainer").style.display = "none";
-
-  const uploadMessage = document.getElementById("uploadMessage");
-  if (uploadMessage) {
-    uploadMessage.textContent = "";
-    uploadMessage.style.display = "none";
-  }
-
-  const fileInput = document.getElementById("fileInput");
-  if (fileInput) {
-    fileInput.value = "";
-  }
-
-  console.log("Global variables reset and results cleared.");
-});
-
-// Function to clear all users except admin
-function clearUsersExceptAdmin() {
-  if (!users || typeof users !== "object" || Object.keys(users).length === 0) {
-    alert("No users found to clear!");
-    return;
-  }
-
-  const updatedUsers = {};
-
-  for (const [username, userInfo] of Object.entries(users)) {
-    if (username === "admin") {
-      updatedUsers[username] = userInfo;
-    }
-  }
-  localStorage.setItem("users", JSON.stringify(updatedUsers));
-  users = updatedUsers;
-
-  alert("All users except admin have been cleared!");
-}
-
 // Attach the event listener to the button dynamically
 document
   .querySelector("#adminActions button")
@@ -357,3 +416,8 @@ function isImageFile(fileName) {
     lowerCaseFileName.includes(extension)
   );
 }
+
+// Handle clear results button click
+document.getElementById("deleteResultsBtn").addEventListener("click", () => {
+  clearResult();
+});

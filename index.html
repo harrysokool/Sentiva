@@ -41,6 +41,11 @@
       </form>
       <p class="uploadMSG" id="uploadMessage" style="display: none;">Your file has been uploaded successfully!</p>
     </div>
+    <div id="progressContainer" style="display: none;">
+      <div id="progressBar"></div>
+      <span id="progressText">0%</span>
+    </div>
+    
   </div>
 
   
@@ -54,9 +59,12 @@
     </div>
     <div id="resultsContainer" style="display: none;">
       <div class="subTitle" >Results</div>
-      <div id="resultsTable"> </div>
-      <div id="resultForGraph">
-        <img src="" alt="">
+      <div id="resultForText">
+        <div id="resultsTable"></div>
+        <div id="visualization"></div>
+      </div>
+      <div id="resultForImage">
+        <img id="resultImage" src="" alt="">
         <div id="graphSentiment"></div>
       </div>
     </div>

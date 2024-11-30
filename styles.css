@@ -159,34 +159,45 @@ form.upload-form {
   text-align: left; 
 }
 
-/* Table Styling */
 #resultsTable {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 20px; 
+  margin-top: 20px;
 }
 
-#resultsTable th {
-  background-color: #343a40; 
-  color: white;
-  font-weight: bold;
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+
+.styled-table th,
+.styled-table td {
   text-align: center;
   padding: 12px;
+  border: 1px solid #dee2e6;
 }
 
-#resultsTable td {
-  padding: 10px;
-  border: 1px solid #dee2e6; 
-  text-align: center; 
+.styled-table th {
+  background-color: #343a40;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
 }
 
-#resultsTable tr:nth-child(even) {
+.styled-table tr:nth-child(even) {
   background-color: #f8f9fa;
 }
 
-#resultsTable tr:hover {
-  background-color: #e9ecef; 
+.styled-table tr:hover {
+  background-color: #e9ecef;
 }
+
+.styled-table td {
+  font-size: 0.9rem;
+}
+
+
 
 /* Standardized Button Styles */
 button,
@@ -292,7 +303,7 @@ button:hover {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-#resultForGraph {
+#resultForImage {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -303,7 +314,7 @@ button:hover {
   /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);  */
 }
 
-#resultForGraph img {
+#resultForImage img {
   max-width: 80%;
   height: auto; 
   margin-bottom: 20px;
@@ -353,4 +364,36 @@ footer {
   position: fixed;
   bottom: 0;
   width: 100%;
+}
+
+/* Progress bar container */
+#progressContainer {
+  width: 80%;
+  margin: 20px auto;
+  height: 30px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* The actual progress bar */
+#progressBar {
+  height: 100%;
+  width: 0%;
+  background-color: #007bff;
+  transition: width 0.3s ease;
+}
+
+/* Progress text */
+#progressText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
