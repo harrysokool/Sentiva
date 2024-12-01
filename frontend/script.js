@@ -93,6 +93,22 @@ function startProgressBar(seconds = 30) {
   }, seconds * 10);
 }
 
+function generateUniqueFileName(originalFileName) {
+  const timestamp = Date.now();
+
+  const fileExtension = originalFileName.split(".").pop();
+
+  const baseName = originalFileName.replace(/\.[^/.]+$/, "");
+  const uniqueFileName = `${baseName}${timestamp}.${fileExtension}`;
+
+  return uniqueFileName;
+}
+
+// Example usage
+const originalFileName = "data.json";
+const uniqueFileName = generateUniqueFileName(originalFileName);
+console.log("Unique File Name:", uniqueFileName);
+
 // Redirect to login page if the user is not logged in
 window.onload = () => {
   const isLoggedIn = sessionStorage.getItem("isLoggedIn");
@@ -172,6 +188,9 @@ document
     const fileInput = document.getElementById("fileInput");
     const file = fileInput.files[0];
     fileName = file.name;
+    console.log("File Name:", fileName);
+    fileName = generateUniqueFileName(fileName);
+    console.log("Unique File Name:", fileName);
     imageUrl = file;
     let fileSize = file.size;
 
@@ -185,7 +204,7 @@ document
       return;
     }
 
-    const endpoint = `https://2de7lmjom7.execute-api.ca-central-1.amazonaws.com/dev/prj-text-json-bucket/${file.name}`;
+    const endpoint = `https://2de7lmjom7.execute-api.ca-central-1.amazonaws.com/dev/prj-text-json-bucket/${fileName}`;
 
     try {
       const response = await fetch(endpoint, {
