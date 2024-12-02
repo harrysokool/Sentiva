@@ -59,6 +59,8 @@ function clearResult() {
   resultsList.innerHTML = "";
 
   document.getElementById("resultsContainer").style.display = "none";
+  const progressBar = document.getElementById("progressContainer");
+  progressBar.style.display = "none";
 
   const uploadMessage = document.getElementById("uploadMessage");
   if (uploadMessage) {
@@ -254,7 +256,13 @@ document
       }
 
       if (isImageFile(fileName)) {
-        startProgressBar(10);
+        if (fileSize < 0.1 * 1024 * 1024) {
+          startProgressBar(10);
+        } else if (fileSize < 0.2 * 1024 * 1024) {
+          startProgressBar(20);
+        } else {
+          startProgressBar(30);
+        }
       } else {
         if (sentenceNo < 50) {
           startProgressBar(10);
