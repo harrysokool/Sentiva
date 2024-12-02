@@ -186,6 +186,7 @@ document
     const imageSentiment = document.getElementById("graphSentiment");
     resultContainer.style.display = "none";
     resultImage.src = "";
+    resultImage.alt = "";
     imageSentiment.innerHTML = "";
 
     const fileInput = document.getElementById("fileInput");
