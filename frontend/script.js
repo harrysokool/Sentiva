@@ -347,6 +347,13 @@ document
         `;
         table.appendChild(headerRow);
 
+        const descriptionRow = document.createElement("tr");
+        descriptionRow.innerHTML = `
+          <td>Description</td>
+          <td>${text}</td>
+        `;
+        table.appendChild(descriptionRow);
+
         const sentimentRow = document.createElement("tr");
         sentimentRow.innerHTML = `
           <td>Sentiment</td>
