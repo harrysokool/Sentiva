@@ -78,8 +78,13 @@ function clearResult() {
 function startProgressBar(seconds = 30) {
   const progressBar = document.getElementById("progressBar");
   const progressText = document.getElementById("progressText");
+  const uploadButton = document.getElementById("uploadButton");
   let progress = 0;
+  let done = false;
 
+  if (done === false) {
+    uploadButton.disabled = true;
+  }
   const interval = setInterval(() => {
     progress += 1;
     progressBar.style.width = `${progress}%`;
@@ -89,10 +94,13 @@ function startProgressBar(seconds = 30) {
       clearInterval(interval);
       progressText.textContent = "Complete!";
       progressFinished = true;
+      uploadButton.disabled = false;
+      done = true;
     }
   }, seconds * 10);
 }
 
+// Function to generate a unique file name
 function generateUniqueFileName(originalFileName) {
   const timestamp = Date.now();
 
@@ -103,11 +111,6 @@ function generateUniqueFileName(originalFileName) {
 
   return uniqueFileName;
 }
-
-// Example usage
-const originalFileName = "data.json";
-const uniqueFileName = generateUniqueFileName(originalFileName);
-console.log("Unique File Name:", uniqueFileName);
 
 // Redirect to login page if the user is not logged in
 window.onload = () => {
@@ -188,11 +191,28 @@ document
     const fileInput = document.getElementById("fileInput");
     const file = fileInput.files[0];
     fileName = file.name;
-    console.log("File Name:", fileName);
     fileName = generateUniqueFileName(fileName);
-    console.log("Unique File Name:", fileName);
     imageUrl = file;
     let fileSize = file.size;
+    let sentenceNo = 0;
+
+    if (file && !isImageFile(fileName)) {
+      console.log("File Name:", fileName);
+
+      const reader = new FileReader();
+
+      reader.onload = function (e) {
+        try {
+          const jsonData = JSON.parse(e.target.result);
+          sentenceNo = jsonData.texts.length;
+          console.log("Sentence Count:", sentenceNo);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+        }
+      };
+
+      reader.readAsText(file);
+    }
 
     if (!file) {
       alert("Please choose a file to upload.");
@@ -231,13 +251,23 @@ document
         ).textContent = `Failed to upload file: ${errorMessage}`;
         document.getElementById("uploadMessage").style.color = "red";
       }
-      // Call this function when you start processing\
-      if (fileSize < 1 * 1024 * 1024) {
+
+      if (isImageFile(fileName)) {
         startProgressBar(10);
-      } else if (fileSize < 5 * 1024 * 1024) {
-        startProgressBar(20);
       } else {
-        startProgressBar(30);
+        if (sentenceNo < 50) {
+          startProgressBar(10);
+        } else if (sentenceNo < 100) {
+          startProgressBar(20);
+        } else if (sentenceNo < 200) {
+          startProgressBar(30);
+        } else if (sentenceNo < 300) {
+          startProgressBar(40);
+        } else if (sentenceNo < 400) {
+          startProgressBar(50);
+        } else {
+          startProgressBar(60);
+        }
       }
     } catch (error) {
       console.error("Error uploading file:", error);
@@ -277,19 +307,17 @@ document
         throw new Error(`Error: ${response.statusText}`);
       }
 
-      // Parse the raw JSON response
       const results = await response.json();
       resultToDownload = results;
       console.log("Raw API Response:", results);
       if (isImage) {
+        console.log("this is image data");
         const resultForImage = document.getElementById("resultForImage");
         const graphSentiment = document.getElementById("graphSentiment");
         const imgElement = resultForImage.querySelector("img");
 
-        // Clear existing content inside graphSentiment (but keep the image)
         graphSentiment.innerHTML = "";
 
-        // Use FileReader to load the image
         const reader = new FileReader();
 
         reader.onload = function (e) {
@@ -297,26 +325,20 @@ document
           imgElement.alt = "Uploaded Image";
         };
 
-        // Read the uploaded file as a Data URL
         reader.readAsDataURL(imageUrl);
 
-        // check if results are available
         if (results.length === 0) {
           alert("No results available for this image.");
           return;
         }
-        // Assuming the response contains sentiment data
         const [text, sentiment, probability] = results[0];
 
-        // Log the data for debugging
         console.log("Sentiment:", sentiment);
         console.log("Probability:", probability);
 
-        // Create a table for displaying sentiment and probability
         const table = document.createElement("table");
         table.classList.add("sentiment-table");
 
-        // Add a header row
         const headerRow = document.createElement("tr");
         headerRow.innerHTML = `
           <th>Attribute</th>
@@ -324,7 +346,6 @@ document
         `;
         table.appendChild(headerRow);
 
-        // Add a row for sentiment
         const sentimentRow = document.createElement("tr");
         sentimentRow.innerHTML = `
           <td>Sentiment</td>
@@ -332,7 +353,6 @@ document
         `;
         table.appendChild(sentimentRow);
 
-        // Add a row for probability
         const probabilityRow = document.createElement("tr");
         probabilityRow.innerHTML = `
           <td>Probability</td>
@@ -340,21 +360,17 @@ document
         `;
         table.appendChild(probabilityRow);
 
-        // Append the table below the image
         graphSentiment.appendChild(table);
 
         const resultsTable = document.getElementById("resultsTable");
         resultsTable.innerHTML = "";
       } else {
-        // Populate the results table
         const resultsTable = document.getElementById("resultsTable");
-        resultsTable.innerHTML = ""; // Clear previous content
+        resultsTable.innerHTML = "";
 
-        // Create the table element
         const table = document.createElement("table");
-        table.classList.add("styled-table"); // Add class for consistent styling
+        table.classList.add("styled-table");
 
-        // Add table header
         const headerRow = document.createElement("tr");
         ["Index", "Text", "Sentiment", "Probability"].forEach((headerText) => {
           const th = document.createElement("th");
@@ -363,7 +379,6 @@ document
         });
         table.appendChild(headerRow);
 
-        // Populate table rows
         results.forEach(([text, emotion, score], index) => {
           const row = document.createElement("tr");
 
@@ -372,21 +387,20 @@ document
           row.appendChild(indexCell);
 
           const textCell = document.createElement("td");
-          textCell.textContent = text || "-"; // Handle empty text
+          textCell.textContent = text || "-";
           row.appendChild(textCell);
 
           const emotionCell = document.createElement("td");
-          emotionCell.textContent = emotion || "-"; // Handle empty emotion
+          emotionCell.textContent = emotion || "-";
           row.appendChild(emotionCell);
 
           const scoreCell = document.createElement("td");
-          scoreCell.textContent = parseFloat(score).toFixed(4) || "-"; // Format probability
+          scoreCell.textContent = parseFloat(score).toFixed(4) || "-";
           row.appendChild(scoreCell);
 
           table.appendChild(row);
         });
 
-        // Append table to resultsTable div
         resultsTable.appendChild(table);
       }
       document.getElementById("resultsContainer").style.display = "block";
