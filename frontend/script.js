@@ -304,7 +304,9 @@ document
     let partitionKey = fileName.substring(0, fileName.lastIndexOf(".")).trim();
     console.log("Partition Key:", partitionKey);
 
-    let apiUrl = `https://rpj7jmku7c.execute-api.ca-central-1.amazonaws.com/stage0/getResult?partitionKey=${partitionKey}`;
+    // let apiUrl = `https://rpj7jmku7c.execute-api.ca-central-1.amazonaws.com/stage0/getResult?partitionKey=${partitionKey}`;
+
+    let apiUrl = `https://2de7lmjom7.execute-api.ca-central-1.amazonaws.com/dev/getResult?partitionKey=${partitionKey}`;
     console.log("API URL:", apiUrl);
 
     try {
