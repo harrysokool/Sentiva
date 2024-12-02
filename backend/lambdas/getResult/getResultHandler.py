@@ -3,13 +3,11 @@ import boto3
 from decimal import Decimal 
 from boto3.dynamodb.conditions import Key
 
-dynamoDB = boto3.resource('dynamodb')
 
-# put name of table that you want to refer to 
-table = dynamoDB.Table('EmotionScore')
+
 
 # Given partition key as input, will count how many times of each emotion is contained from that one entry
-def getResult(partitionKey):
+def getResult(partitionKey, table):
     
     #returns all elements with the given partition key as a dictionary 
     resultDict = table.query(KeyConditionExpression=Key('dataName').eq(partitionKey)) 
@@ -36,30 +34,60 @@ def getResult(partitionKey):
 
 def lambda_handler(event, context):
     # TODO implement
+    
+    # partitionKey = event.get('partitionKey')
+    # results = getResult(partitionKey) # change this value to key you want to call
+    
+    # partitionKey = event.get('queryStringParameters', {}).get('partitionKey')
+    # results = getResult(partitionKey) # change this value to key you want to call
 
-    partitionKey = event["queryStringParameters"]["partitionKey"]
-    print(f"Received partitionKey: {partitionKey}, Type: {type(partitionKey)}")
+    # Comment out the two above lines and uncomment the ones below for testing 
+    # results = getResult("testDataSet2") # change this value to key you want to call
 
-    if not partitionKey:
+    # return {
+    #     'statusCode': 200,
+    #     'body': json.dumps(results)
+    # }
+    try:
+        dynamoDB = boto3.resource('dynamodb')
+
+        # put name of table that you want to refer to 
+        table = dynamoDB.Table('EmotionScore')
+        partitionKey = event.get("queryStringParameters", {}).get("partitionKey")
+        print(f"Received partitionKey: {partitionKey}, Type: {type(partitionKey)}")
+    
+        if not partitionKey:
+            return {
+                'statusCode': 400,
+                'headers': {
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'GET',
+                    'Access-Control-Allow-Headers': 'Content-Type',
+                },
+                'body': json.dumps({'error': 'partitionKey is required'})
+            }
+    
+        # Call your function to fetch data from DynamoDB
+        results = getResult(partitionKey, table)
+        
         return {
-            'statusCode': 400,
+            'statusCode': 200,
             'headers': {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'GET',
                 'Access-Control-Allow-Headers': 'Content-Type',
             },
-            'body': json.dumps({'error': 'partitionKey is required'})
+            'body': json.dumps(results)
         }
+    except Exception:
+        return {
+            'statusCode': 500,
+            'headers': {
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET',
+                'Access-Control-Allow-Headers': 'Content-Type',
+            },
+            'body': json.dumps({'error': 'Internal Server Error'})
+        }
+    
 
-    # Call your function to fetch data from DynamoDB
-    results = getResult(partitionKey)
-
-    return {
-        'statusCode': 200,
-        'headers': {
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'GET',
-            'Access-Control-Allow-Headers': 'Content-Type',
-        },
-        'body': json.dumps(results)
-    }
