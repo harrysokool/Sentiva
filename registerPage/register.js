@@ -83,7 +83,8 @@ document.getElementById("customAlertClose").addEventListener("click", () => {
   const customAlert = document.getElementById("customAlert");
   customAlert.style.display = "none";
   const customAlertTitle = document.getElementById("customAlertTitle");
-  if (customAlertTitle.textContent === "success") {
+  if (customAlertTitle.textContent === "Success") {
+    console.log("Redirecting to login page...");
     window.location.href = "/../Sentiva/loginPage/loginPage.html";
   }
 });
