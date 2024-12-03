@@ -30,7 +30,8 @@ window.onload = showAdminActions();
 // Function to clear all users except admin
 function clearUsersExceptAdmin() {
   if (!users || typeof users !== "object" || Object.keys(users).length === 0) {
-    alert("No users found to clear!");
+    // alert("No users found to clear!");
+    showCustomAlert("No users found to clear!", "error");
     return;
   }
 
@@ -119,7 +120,8 @@ function generateUniqueFileName(originalFileName) {
 window.onload = () => {
   const isLoggedIn = sessionStorage.getItem("isLoggedIn");
   if (!isLoggedIn) {
-    alert("You need to log in first!");
+    // alert("You need to log in first!");
+    showCustomAlert("You need to log in first!", "error");
     window.location.href = "loginPage/loginPage.html";
   }
 };
@@ -129,7 +131,8 @@ window.addEventListener("pageshow", (event) => {
   if (event.persisted) {
     const isLoggedIn = sessionStorage.getItem("isLoggedIn");
     if (!isLoggedIn) {
-      alert("You need to log in first!");
+      // alert("You need to log in first!");
+      showCustomAlert("You need to log in first!", "error");
       window.location.href = "loginPage/loginPage.html";
     }
   }
@@ -165,7 +168,8 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     uploadSection.style.display = "none";
     resultsSection.style.display = "none";
-    alert("You must log in to access this content.");
+    // alert("You must log in to access this content.");
+    showCustomAlert("You must log in to access this content!", "error");
     window.location.href = "loginPage/loginPage.html";
   }
 });
@@ -173,7 +177,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // Log out the user
 document.getElementById("logoutButton").addEventListener("click", () => {
   sessionStorage.removeItem("isLoggedIn");
-  alert("You have been logged out.");
+  // alert("You have been logged out.");
+  showCustomAlert("You have been logged out.");
   window.location.href = "loginPage/loginPage.html";
 });
 
@@ -219,12 +224,14 @@ document
     }
 
     if (!file) {
-      alert("Please choose a file to upload.");
+      // alert("Please choose a file to upload.");
+      showCustomAlert("Please choose a file to upload.", "error");
       return;
     }
 
     if (file.size > 10 * 1024 * 1024) {
-      alert("File size exceeds the 10MB limit.");
+      // alert("File size exceeds the 10MB limit.");
+      showCustomAlert("File size exceeds the 10MB limit.", "error");
       return;
     }
 
@@ -292,12 +299,14 @@ document
   .getElementById("viewResultsBtn")
   .addEventListener("click", async () => {
     if (!progressFinished) {
-      alert("Please wait for the upload to finish.");
+      // alert("Please wait for the upload to finish.");
+      showCustomAlert("Please wait for the upload to finish.", "error");
       return;
     }
 
     if (!fileName) {
-      alert("Please upload a file first.");
+      // alert("Please upload a file first.");
+      showCustomAlert("Please upload a file first.", "error");
       return;
     }
     let isImage = isImageFile(fileName);
@@ -340,7 +349,8 @@ document
         reader.readAsDataURL(imageUrl);
 
         if (results.length === 0) {
-          alert("No results available for this image.");
+          // alert("No results available for this image.");
+          showCustomAlert("No results available for this image.", "error");
           return;
         }
         const [text, sentiment, probability] = results[0];
@@ -426,14 +436,16 @@ document
       getResults = true;
     } catch (error) {
       console.error("Failed to fetch results:", error);
-      alert("Failed to fetch results. Please try again.");
+      // alert("Failed to fetch results. Please try again.");
+      showCustomAlert("Failed to fetch results. Please try again.", "error");
     }
   });
 
 // Handle download results button click
 document.getElementById("downloadResultsBtn").addEventListener("click", () => {
   if (!resultToDownload) {
-    alert("No results available to download.");
+    // alert("No results available to download.");
+    showCustomAlert("No results available to download.", "error");
     return;
   }
 
@@ -474,9 +486,14 @@ document.getElementById("deleteResultsBtn").addEventListener("click", () => {
   clearResult();
 });
 
-function showCustomAlert(message) {
+function showCustomAlert(message, type = "success") {
   const customAlert = document.getElementById("customAlert");
   const customAlertMessage = document.getElementById("customAlertMessage");
+  const customAlertTitle = document.getElementById("customAlertTitle");
+  if (type === "error") {
+    customAlertTitle.textContent = "Error!";
+    customAlert.style.backgroundColor = "#f44336";
+  }
 
   customAlertMessage.textContent = message;
 
