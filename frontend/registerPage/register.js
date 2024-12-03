@@ -25,7 +25,9 @@ document
     }
 
     // Strong password validation
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
     if (!passwordRegex.test(password1)) {
       alert(
         "Password must be at least 8 characters long and include at least one uppercase letter and one number."
