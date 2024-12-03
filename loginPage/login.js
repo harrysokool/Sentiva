@@ -22,10 +22,25 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
     alert("Login successful!");
     window.location.href = "../index.html";
   } else {
-    alert("Invalid username or password.");
+    // alert("Invalid username or password.");
+    showCustomAlert("Invalid username or password.");
   }
 });
 
 document.querySelector(".registerButton").addEventListener("click", () => {
   window.location.href = "/../Sentiva/registerPage/register.html";
+});
+
+function showCustomAlert(message) {
+  const customAlert = document.getElementById("customAlert");
+  const customAlertMessage = document.getElementById("customAlertMessage");
+
+  customAlertMessage.textContent = message;
+
+  customAlert.style.display = "flex";
+}
+
+document.getElementById("customAlertClose").addEventListener("click", () => {
+  const customAlert = document.getElementById("customAlert");
+  customAlert.style.display = "none";
 });
