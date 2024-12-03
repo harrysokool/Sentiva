@@ -210,6 +210,7 @@ document
   .addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    // Reset the UI elements
     progressFinished = false;
     const resultContainer = document.getElementById("resultsContainer");
     const resultImage = document.getElementById("resultImage");
@@ -218,6 +219,27 @@ document
     resultImage.src = "";
     resultImage.alt = "";
     imageSentiment.innerHTML = "";
+    document.getElementById("chartsContainer").style.display = "none";
+
+    // Destroy the charts if they exist
+    if (pieChartInstance) {
+      pieChartInstance.destroy();
+      pieChartInstance = null;
+    }
+    if (barChartInstance) {
+      barChartInstance.destroy();
+      barChartInstance = null;
+    }
+
+    // Clear the canvas content
+    document
+      .getElementById("pieChart")
+      .getContext("2d")
+      .clearRect(0, 0, 500, 500);
+    document
+      .getElementById("barChart")
+      .getContext("2d")
+      .clearRect(0, 0, 500, 500);
 
     const fileInput = document.getElementById("fileInput");
     const file = fileInput.files[0];
