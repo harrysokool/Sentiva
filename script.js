@@ -153,8 +153,8 @@ window.addEventListener("pageshow", (event) => {
   if (event.persisted) {
     const isLoggedIn = sessionStorage.getItem("isLoggedIn");
     if (!isLoggedIn) {
-      // alert("You need to log in first!");
-      showCustomAlert("You need to log in first!", "error");
+      alert("You need to log in first!");
+      // showCustomAlert("You need to log in first!", "error");
       window.location.href = "loginPage/loginPage.html";
     }
   }
@@ -190,8 +190,8 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     uploadSection.style.display = "none";
     resultsSection.style.display = "none";
-    // alert("You must log in to access this content.");
-    showCustomAlert("You must log in to access this content!", "error");
+    alert("You must log in to access this content.");
+    // showCustomAlert("You must log in to access this content!", "error");
     window.location.href = "loginPage/loginPage.html";
   }
 });
