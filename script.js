@@ -381,6 +381,8 @@ document
         console.log("this is image data");
         const resultForImage = document.getElementById("resultForImage");
         const graphSentiment = document.getElementById("graphSentiment");
+        const resultForText = document.getElementById("resultForText");
+        resultForText.style.display = "none";
         const imgElement = resultForImage.querySelector("img");
 
         graphSentiment.innerHTML = "";
