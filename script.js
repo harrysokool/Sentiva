@@ -75,6 +75,28 @@ function clearResult() {
     fileInput.value = "";
   }
 
+  document.getElementById("chartsContainer").style.display = "none";
+
+  // Destroy the charts if they exist
+  if (pieChartInstance) {
+    pieChartInstance.destroy();
+    pieChartInstance = null;
+  }
+  if (barChartInstance) {
+    barChartInstance.destroy();
+    barChartInstance = null;
+  }
+
+  // Clear the canvas content
+  document
+    .getElementById("pieChart")
+    .getContext("2d")
+    .clearRect(0, 0, 500, 500);
+  document
+    .getElementById("barChart")
+    .getContext("2d")
+    .clearRect(0, 0, 500, 500);
+
   console.log("Global variables reset and results cleared.");
 }
 
@@ -506,4 +528,91 @@ function showCustomAlert(message, type = "success") {
 document.getElementById("customAlertClose").addEventListener("click", () => {
   const customAlert = document.getElementById("customAlert");
   customAlert.style.display = "none";
+});
+
+document.getElementById("viewGraphsBtn").addEventListener("click", () => {
+  const data = resultToDownload;
+
+  const sentimentCounts = {};
+  data.forEach(([_, sentiment]) => {
+    sentimentCounts[sentiment] = (sentimentCounts[sentiment] || 0) + 1;
+  });
+
+  const labels = Object.keys(sentimentCounts);
+  const values = Object.values(sentimentCounts);
+
+  const colors = [
+    "#FF6384",
+    "#36A2EB",
+    "#FFCE56",
+    "#4BC0C0",
+    "#9966FF",
+    "#FF9F40",
+  ];
+
+  document.getElementById("chartsContainer").style.display = "flex";
+
+  // Pie Chart
+  const pieCtx = document.getElementById("pieChart").getContext("2d");
+  new Chart(pieCtx, {
+    type: "pie",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          data: values,
+          backgroundColor: colors,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: "bottom",
+        },
+      },
+    },
+  });
+
+  // Bar Chart
+  const barCtx = document.getElementById("barChart").getContext("2d");
+  new Chart(barCtx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Sentiment Count",
+          data: values,
+          backgroundColor: colors,
+        },
+      ],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: false,
+        },
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: "Sentiments",
+          },
+        },
+        y: {
+          title: {
+            display: true,
+            text: "Count",
+          },
+          beginAtZero: true,
+        },
+      },
+    },
+  });
 });

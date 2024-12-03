@@ -7,6 +7,7 @@
   <title>Sentiva</title>
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="assets/logo-removebg-preview.png" type="image/x-icon">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -61,22 +62,34 @@
       <div class="subTitle" >Results</div>
       <div id="resultForText">
         <div id="resultsTable"></div>
-        <div id="visualization"></div>
+        <div id="buttonContainer">
+          <button id="viewGraphsBtn">View Graphs</button>
+        </div>
       </div>
       <div id="resultForImage">
         <img id="resultImage" src="" alt="">
         <div id="graphSentiment"></div>
       </div>
     </div>
-  </div>
 
+    <div id="chartsContainer" style="display: none;">
+      <div class="chart-wrapper">
+        <canvas id="pieChart"></canvas>
+      </div>
+      <div class="chart-wrapper">
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Alert -->
   <div id="customAlert" class="custom-alert">
     <div class="custom-alert-content">
       <h2 id="customAlertTitle">Success</h2>
       <p id="customAlertMessage">Invalid username or password.</p>
       <button id="customAlertClose" class="popup-button">OK</button>
     </div>
-</div>
+  </div>
 
 
   <br>

@@ -19,11 +19,12 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
 
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
-    alert("Login successful!");
+    // alert("Login successful!");
+    showCustomAlert("Login successful!");
     window.location.href = "../index.html";
   } else {
     // alert("Invalid username or password.");
-    showCustomAlert("Invalid username or password.");
+    showCustomAlert("Invalid username or password.", "error");
   }
 });
 
@@ -31,9 +32,18 @@ document.querySelector(".registerButton").addEventListener("click", () => {
   window.location.href = "/../Sentiva/registerPage/register.html";
 });
 
-function showCustomAlert(message) {
+function showCustomAlert(message, type = "success") {
   const customAlert = document.getElementById("customAlert");
   const customAlertMessage = document.getElementById("customAlertMessage");
+  const customAlertTitle = document.getElementById("customAlertTitle");
+
+  if (type === "success") {
+    customAlertTitle.textContent = "Success";
+    customAlert.style.backgroundColor = "#4CAF50";
+  } else {
+    customAlertTitle.textContent = "Error";
+    customAlert.style.backgroundColor = "#f44336";
+  }
 
   customAlertMessage.textContent = message;
 
