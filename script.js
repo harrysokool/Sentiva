@@ -4,6 +4,8 @@ let getResults = false;
 let resultToDownload = null;
 let imageUrl = null;
 let progressFinished = false;
+let pieChartInstance = null;
+let barChartInstance = null;
 
 // Load user data from localStorage
 let users = JSON.parse(localStorage.getItem("users")) || {};
@@ -554,7 +556,7 @@ document.getElementById("customAlertClose").addEventListener("click", () => {
   customAlert.style.display = "none";
 });
 
-// Handle view graphs button click
+// View Graphs Button Logic
 document.getElementById("viewGraphsBtn").addEventListener("click", () => {
   const data = resultToDownload;
 
@@ -577,9 +579,16 @@ document.getElementById("viewGraphsBtn").addEventListener("click", () => {
 
   document.getElementById("chartsContainer").style.display = "flex";
 
+  if (pieChartInstance) {
+    pieChartInstance.destroy();
+  }
+  if (barChartInstance) {
+    barChartInstance.destroy();
+  }
+
   // Pie Chart
   const pieCtx = document.getElementById("pieChart").getContext("2d");
-  new Chart(pieCtx, {
+  pieChartInstance = new Chart(pieCtx, {
     type: "pie",
     data: {
       labels: labels,
@@ -603,7 +612,7 @@ document.getElementById("viewGraphsBtn").addEventListener("click", () => {
 
   // Bar Chart
   const barCtx = document.getElementById("barChart").getContext("2d");
-  new Chart(barCtx, {
+  barChartInstance = new Chart(barCtx, {
     type: "bar",
     data: {
       labels: labels,
