@@ -54,7 +54,6 @@ document
         "Registration successful! Redirecting to login...",
         "success"
       );
-      window.location.href = "/../Sentiva/loginPage/loginPage.html";
     }
   });
 
@@ -83,4 +82,8 @@ function showCustomAlert(message, type = "error") {
 document.getElementById("customAlertClose").addEventListener("click", () => {
   const customAlert = document.getElementById("customAlert");
   customAlert.style.display = "none";
+  const customAlertTitle = document.getElementById("customAlertTitle");
+  if (customAlertTitle.textContent === "Success") {
+    window.location.href = "/../Sentiva/loginPage/loginPage.html";
+  }
 });
