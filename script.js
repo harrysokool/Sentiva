@@ -270,6 +270,7 @@ document
             Array.isArray(jsonData.texts) &&
             jsonData.texts.every((item) => typeof item.content === "string")
           ) {
+            pass = true;
           } else {
             alert(
               "Invalid JSON structure! Ensure it has 'document_name' and 'texts'."
@@ -285,6 +286,7 @@ document
       };
       reader.readAsText(file);
     } else if (fileExtension === "jpeg" || fileExtension === "jpg") {
+      pass = true;
     } else {
       alert(
         "Unsupported file type! Please upload a .json or a .jpeg/.jpg file."
@@ -293,7 +295,9 @@ document
       return;
     }
 
-    if (!pass) return;
+    if (pass === false) {
+      return;
+    }
 
     if (file && !isImageFile(fileName)) {
       console.log("File Name:", fileName);
