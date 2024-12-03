@@ -493,6 +493,9 @@ function showCustomAlert(message, type = "success") {
   if (type === "error") {
     customAlertTitle.textContent = "Error";
     customAlertTitle.style.color = "red";
+  } else {
+    customAlertTitle.textContent = "Success";
+    customAlertTitle.style.color = "green";
   }
 
   customAlertMessage.textContent = message;
