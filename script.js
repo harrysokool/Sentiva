@@ -443,7 +443,10 @@ document
         const resultsTable = document.getElementById("resultsTable");
         resultsTable.innerHTML = "";
       } else {
+        const resultForText = document.getElementById("resultForText");
+        resultForText.style.display = "block";
         const resultsTable = document.getElementById("resultsTable");
+
         resultsTable.innerHTML = "";
 
         const table = document.createElement("table");
