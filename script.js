@@ -214,6 +214,7 @@ document
 
     // Reset the UI elements
     progressFinished = false;
+    resultToDownload = null;
     const resultContainer = document.getElementById("resultsContainer");
     const resultImage = document.getElementById("resultImage");
     const imageSentiment = document.getElementById("graphSentiment");
