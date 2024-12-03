@@ -491,8 +491,8 @@ function showCustomAlert(message, type = "success") {
   const customAlertMessage = document.getElementById("customAlertMessage");
   const customAlertTitle = document.getElementById("customAlertTitle");
   if (type === "error") {
-    customAlertTitle.textContent = "Error!";
-    customAlert.style.backgroundColor = "#f44336";
+    customAlertTitle.textContent = "Error";
+    customAlertTitle.style.color = "red";
   }
 
   customAlertMessage.textContent = message;
