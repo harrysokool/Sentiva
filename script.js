@@ -44,7 +44,8 @@ function clearUsersExceptAdmin() {
   localStorage.setItem("users", JSON.stringify(updatedUsers));
   users = updatedUsers;
 
-  alert("All users except admin have been cleared!");
+  // alert("All users except admin have been cleared!");
+  showCustomAlert("All users except admin have been cleared!");
 }
 
 // Function to clear results and reset global variables
@@ -471,4 +472,18 @@ function isImageFile(fileName) {
 // Handle clear results button click
 document.getElementById("deleteResultsBtn").addEventListener("click", () => {
   clearResult();
+});
+
+function showCustomAlert(message) {
+  const customAlert = document.getElementById("customAlert");
+  const customAlertMessage = document.getElementById("customAlertMessage");
+
+  customAlertMessage.textContent = message;
+
+  customAlert.style.display = "flex";
+}
+
+document.getElementById("customAlertClose").addEventListener("click", () => {
+  const customAlert = document.getElementById("customAlert");
+  customAlert.style.display = "none";
 });
