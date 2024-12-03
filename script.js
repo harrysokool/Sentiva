@@ -508,6 +508,7 @@ document.getElementById("deleteResultsBtn").addEventListener("click", () => {
   clearResult();
 });
 
+// Custom alert function
 function showCustomAlert(message, type = "success") {
   const customAlert = document.getElementById("customAlert");
   const customAlertMessage = document.getElementById("customAlertMessage");
@@ -525,11 +526,13 @@ function showCustomAlert(message, type = "success") {
   customAlert.style.display = "flex";
 }
 
+// Close the custom alert
 document.getElementById("customAlertClose").addEventListener("click", () => {
   const customAlert = document.getElementById("customAlert");
   customAlert.style.display = "none";
 });
 
+// Handle view graphs button click
 document.getElementById("viewGraphsBtn").addEventListener("click", () => {
   const data = resultToDownload;
 
