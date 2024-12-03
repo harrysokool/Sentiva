@@ -431,7 +431,7 @@ footer {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.6); 
   z-index: 1000;
   justify-content: center;
   align-items: center;
@@ -439,50 +439,79 @@ footer {
 
 /* Pop-up content box */
 .custom-alert-content {
-  background-color: white; 
-  padding: 30px;
-  border-radius: 15px; 
+  background-color: #ffffff;
+  padding: 25px 40px; 
+  border-radius: 12px;
   text-align: center;
-  max-width: 400px; 
-  width: 80%;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
-  animation: fadeIn 0.3s ease-in-out; 
+  max-width: 350px;
+  width: 90%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  transform: scale(0.8); 
+  opacity: 0; 
+  animation: popIn 0.3s ease forwards; 
 }
 
 /* Pop-up title styling */
 .custom-alert-content h2 {
   margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 1.5rem;
-  color: #dc3545;
+  margin-bottom: 15px;
+  font-size: 1.8rem; 
+  font-weight: bold;
+  color: #007bff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Pop-up message styling */
 .custom-alert-content p {
-  font-size: 1rem; 
+  font-size: 1.1rem; 
   color: #333; 
   margin-bottom: 20px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* Button styling */
 .popup-button {
-  padding: 10px 20px;
-  background-color: #007bff; 
+  padding: 12px 25px;
+  background-color: #28a745; 
   color: white;
   border: none;
-  border-radius: 8px; 
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); 
 }
 
 .popup-button:hover {
-  background-color: #0056b3; 
+  background-color: #218838;
   transform: translateY(-2px); 
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3); 
 }
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Smooth pop-in animation */
+@keyframes popIn {
+  from {
+    transform: scale(0.8); 
+    opacity: 0; 
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
 
 #chartsContainer {
   display: flex; 
