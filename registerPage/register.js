@@ -83,7 +83,7 @@ document.getElementById("customAlertClose").addEventListener("click", () => {
   const customAlert = document.getElementById("customAlert");
   customAlert.style.display = "none";
   const customAlertTitle = document.getElementById("customAlertTitle");
-  if (customAlertTitle.textContent === "Success") {
+  if (customAlertTitle.textContent === "success") {
     window.location.href = "/../Sentiva/loginPage/loginPage.html";
   }
 });
