@@ -19,12 +19,12 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
 
     localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
-    // alert("Login successful!");
-    showCustomAlert("Login successful!");
+    alert("Login successful!");
+    // showCustomAlert("Login successful!");
     window.location.href = "../index.html";
   } else {
-    // alert("Invalid username or password.");
-    showCustomAlert("Invalid username or password.", "error");
+    alert("Invalid username or password.");
+    // showCustomAlert("Invalid username or password.", "error");
   }
 });
 

@@ -199,8 +199,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // Log out the user
 document.getElementById("logoutButton").addEventListener("click", () => {
   sessionStorage.removeItem("isLoggedIn");
-  // alert("You have been logged out.");
-  showCustomAlert("You have been logged out.");
+  alert("You have been logged out.");
+  // showCustomAlert("You have been logged out.");
   window.location.href = "loginPage/loginPage.html";
 });
 
