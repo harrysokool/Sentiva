@@ -251,53 +251,11 @@ document
     imageUrl = file;
     let fileSize = file.size;
     let sentenceNo = 0;
-    let pass = false;
 
     if (!file) {
       alert("No file selected!");
       return;
     }
-
-    // const fileExtension = fileName.split(".").pop();
-    // if (fileExtension === "json") {
-    //   const reader = new FileReader();
-    //   reader.onload = function (event) {
-    //     try {
-    //       const jsonData = JSON.parse(event.target.result);
-
-    //       if (
-    //         jsonData.hasOwnProperty("document_name") &&
-    //         Array.isArray(jsonData.texts) &&
-    //         jsonData.texts.every((item) => typeof item.content === "string")
-    //       ) {
-    //         pass = true;
-    //       } else {
-    //         alert(
-    //           "Invalid JSON structure! Ensure it has 'document_name' and 'texts'."
-    //         );
-    //         document.getElementById("fileInput").value = "";
-    //         return;
-    //       }
-    //     } catch (error) {
-    //       alert("Invalid JSON file format!");
-    //       document.getElementById("fileInput").value = "";
-    //       return;
-    //     }
-    //   };
-    //   reader.readAsText(file);
-    // } else if (fileExtension === "jpeg" || fileExtension === "jpg") {
-    //   pass = true;
-    // } else {
-    //   alert(
-    //     "Unsupported file type! Please upload a .json or a .jpeg/.jpg file."
-    //   );
-    //   document.getElementById("fileInput").value = "";
-    //   return;
-    // }
-
-    // if (pass === false) {
-    //   return;
-    // }
 
     if (file && !isImageFile(fileName)) {
       console.log("File Name:", fileName);
