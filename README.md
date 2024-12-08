@@ -34,4 +34,33 @@ The application leverages advanced machine learning models hosted on the cloud, 
 - **Emotion Detection**: Provides a detailed breakdown of emotional content in the input.
 - **User-Friendly Interface**: Designed for simplicity and ease of use, ensuring a seamless user experience.
 
+## How to Use the Application
+
+### Access the Platform
+- Open the Sentiva application on your web browser.
+- Register an account e.g. username: user1, pwd: Hello123 (pwd have to at least have 1 number and 1 capital alphabet and no special characters) email: hello@gmail.com, OTP: 123456
+
+### Upload Your Input
+- **For text analysis**: Upload a `.json` file containing text data. Ensure the file format matches the expected structure (e.g., `document_name` and `texts` fields).
+- **For image analysis**: Upload an image file in `.jpeg` or `.jpg` format.
+
+### Analyze Sentiment
+- Click on the **"Upload and Analyze"** button to process your input.
+
+### View Results
+- Sentiment results will appear as a table displaying:
+  - **Index**: The line number of the input text or image.
+  - **Text/Description**: The text content or a description of the uploaded image.
+  - **Sentiment**: The detected emotion (e.g., joy, sadness, anger).
+  - **Probability**: The confidence score of the prediction.
+
+### Visualize Data
+- Click on the **"View Graphs"** button to generate and display:
+  - A **Pie Chart** showing the sentiment distribution.
+  - A **Bar Chart** displaying the frequency of each sentiment.
+
+### Clear Results
+- To reset the application and upload new data, click the **"Clear Results"** button. This action will clear all displayed results and graphs.
+
+
 With this tool, users can gain deeper emotional insights, improving communication, interpretation, and overall understanding.

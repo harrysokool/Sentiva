@@ -8,6 +8,9 @@ dynamoDB = boto3.resource('dynamodb')
 # put name of table that you want to refer to 
 table = dynamoDB.Table('EmotionScore')
 
+MAX_TEXTS = 100
+MAX_SIZE = 5000000 #5 MB
+
 def insertElementToTable(dataEntry, analysisResult):
     index = 0
     for output in analysisResult:
@@ -84,7 +87,7 @@ def lambda_handler(event, context):
     """
     def sentiment_analysis_text(json_content):
         texts = json_content['texts']
-
+        
         result = []
         runtime = boto3.client('sagemaker-runtime')
 
@@ -165,6 +168,15 @@ def lambda_handler(event, context):
     
     dbKey = os.path.splitext(os.path.basename(file_key))[0]
 
+    metadata = s3.head_object(Bucket=bucket_name, Key=file_key)
+    file_size = metadata['ContentLength']
+
+    if file_size > MAX_SIZE:
+        return {
+            "statusCode": 400,
+            "body": "File size is too large"
+        }
+
     if file_key.lower().endswith('.json'):
         # Read the content of the file
 
@@ -175,6 +187,13 @@ def lambda_handler(event, context):
         
         # Parse JSON content
         json_content = json.loads(file_content)
+
+        if len(json_content['texts']) > MAX_TEXTS:
+            
+            return {
+                "statusCode": 400,
+                "body": "JSON content length is too large"
+            }
 
         result = sentiment_analysis_text(json_content)
         
