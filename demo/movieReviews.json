@@ -1,0 +1,42 @@
+{
+  "document_name": "movie_reviews_simple",
+  "Count": 12,
+  "texts": [
+    {
+      "content": "I really loved this movie. The story was great, and the acting was amazing."
+    },
+    {
+      "content": "The movie was very good in my opinion"
+    },
+    {
+      "content": "I didn’t like it at all. The plot was boring, and the acting wasn’t good."
+    },
+    {
+      "content": "This movie made me laugh a lot. It was really funny and entertaining."
+    },
+    {
+      "content": "The special effects were great."
+    },
+    {
+      "content": "I felt so emotional watching this. It was a beautiful and touching story."
+    },
+    {
+      "content": "It was a bit too slow for me. I got bored halfway through the movie."
+    },
+    {
+      "content": "The movie had a strong start, and the ending is very satisfying."
+    },
+    {
+      "content": "This was one of the best movies I’ve seen in a long time!"
+    },
+    {
+      "content": "I don’t really like it and will never watch again."
+    },
+    {
+      "content": "This movie was a waste of time. The story was weak, and I didn’t care about the characters. I hate this movie"
+    },
+    {
+      "content": "I had a great time watching this. It was fun, simple, and easy to enjoy."
+    }
+  ]
+}
